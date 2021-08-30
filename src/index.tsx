@@ -3,11 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { RecoilRoot } from 'recoil'
+import { ThemeProvider, theme } from '@chakra-ui/react'
+
+export const queryClient = new QueryClient();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </RecoilRoot>,
   document.getElementById('root')
 );
 
