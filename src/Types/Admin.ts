@@ -5,4 +5,5 @@ export interface IAdmin {
     email: string;
     password: string;
     created_at: string;
+    role: number;
 }

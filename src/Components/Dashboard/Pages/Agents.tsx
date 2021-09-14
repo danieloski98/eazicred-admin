@@ -7,8 +7,10 @@ import UseDetails from '../../../Hooks/UseDetails'
 import Lottie from 'react-lottie'
 import { IAgent } from '../../../Types/Agents'
 import { FiSearch, FiRefreshCcw, } from 'react-icons/fi'
+import AgentModal from '../Components/AgentModal'
+import AddAgentModal from '../Components/AddAgentModal'
 
-const getUsers = async (token: string) => {
+const getAgents = async (token: string) => {
     console.log(token);
     const res = await fetch(`${local}/admin/agents`, {
         method: 'get',
@@ -31,8 +33,11 @@ export default function Agents() {
     const [users,setUsers] = React.useState([] as Array<IAgent>);
     const [error, setError] = React.useState(false);
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [currentAgent, setCurrentAgent] = React.useState({} as IAgent);
+    const [showModal, setShowModal] = React.useState(false);
+    const [createModal, setCreateModal] = React.useState(false);
 
-    const { refetch } = useQuery(['getusers', token], () => getUsers(token), {
+    const { refetch } = useQuery(['getagents', token], () => getAgents(token), {
         onSuccess: (data) => {
             console.log(data);
             setUsers(data.data);
@@ -52,8 +57,15 @@ export default function Agents() {
         await refetch()
     }
 
+    const selectagent = (agent: IAgent) => {
+        setCurrentAgent(agent);
+        setShowModal(true);
+    }
+
     return (
         <div className="w-full h-full flex flex-col">
+            <AddAgentModal open={createModal} close={() => setCreateModal(false)} />
+            <AgentModal open={showModal} close={() => setShowModal(false)} agent={currentAgent} />
             <div className="w-full h-24 flex justify-between items-center">
 
                 <div className="flex flex-col">
@@ -66,7 +78,7 @@ export default function Agents() {
                         <InputLeftElement children={<FiSearch size={20} color="grey" />} />
                         <Input className="w-72" placeholder="Search by email or firstname" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
                     </InputGroup>
-                    <button className="w-24 h-10 rounded bg-eazicred text-sm text-white ml-6">Add Agent</button>
+                    <button onClick={() => setCreateModal(true)} className="w-24 h-10 rounded bg-eazicred text-sm text-white ml-6">Add Agent</button>
                     <div onClick={retry} title="Refresh" className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center transform hover:scale-125 transition-all hover:text-eazicred cursor-pointer ml-6">
                         <FiRefreshCcw size={20}  />
                    </div>
@@ -122,7 +134,7 @@ export default function Agents() {
                                     <td className="pt-6 text-sm">{items.email}</td>
                                     <td className="pt-6 text-sm">{items.phone}</td>
                                     <td className="pt-6 text-sm">
-                                        <button className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Agent</button>
+                                        <button onClick={() => selectagent(items)} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Agent</button>
                                     </td>
                                 </tr>
                             ))
