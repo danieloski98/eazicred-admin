@@ -67,6 +67,17 @@ const checkStatus = (type: number) => {
     }
 }
 
+const checkDraft = (type: boolean) => {
+    switch(type) {
+        case true: {
+            return 'true'
+        }
+        case false: {
+            return 'false'
+        }
+    }
+}
+
 let data = [
     {
       sheet: 'Adults',
@@ -81,8 +92,8 @@ let data = [
         { label: 'purpose_of_loan', value: (row: ISMELoan) => row.purpose_of_loan },
         { label: 'type', value: (row: ISMELoan) => checkType(row.type) },
         { label: 'status', value: (row: ISMELoan) => checkStatus(row.status) },
-        { label: 'draft', value: (row: ISMELoan) => row.draft  },
-        { label: 'created_at', value: (row: ISMELoan) => row.status  },
+        { label: 'draft', value: (row: ISMELoan) => checkDraft(row.draft as any)  },
+        { label: 'created_at', value: (row: ISMELoan) => new Date(row.created_at).toUTCString()  },
         { label: 'phone', value: (row: ISMELoan) => row.user.phone  },
         { label: 'email', value: (row: ISMELoan) => row.user.email  },
       ],
