@@ -41,32 +41,53 @@ export default function SMELoan() {
         extraLength: 3, // A bigger number means that columns will be wider
         writeOptions: {} // Style options from https://github.com/SheetJS/sheetjs#writing-options
       }
+
+const checkType = (type: number) => {
+    switch(type) {
+        case 1: {
+            return 'Payday Loan'
+        }
+        case 2: {
+            return 'SME loan'
+        }
+    }
+}
     
+const checkStatus = (type: number) => {
+    switch(type) {
+        case 1: {
+            return 'Processing'
+        }
+        case 2: {
+            return 'Approved'
+        }
+        case 3: {
+            return 'Declined'
+        }
+    }
+}
 
 let data = [
     {
       sheet: 'Adults',
       columns: [
-        { label: 'User', value: 'user' }, // Top level data
-        { label: 'Age', value: (row: any) => (row.age + ' years') }, // Run functions
-        { label: 'Phone', value: (row: any) => (row.more ? row.more.phone || '' : '') }, // Deep props
+        { label: 'id', value: (row: ISMELoan) => row.id },
+        { label: 'User_id', value: (row: ISMELoan) => row.user_id },
+        { label: 'business_name', value: (row: ISMELoan) => row.business_name },
+        { label: 'business_address', value: (row: ISMELoan) => row.business_address },
+        { label: 'business_up_time', value: (row: ISMELoan) => row.business_up_time },
+        { label: 'RC_number', value: (row: ISMELoan) => row.RC_number },
+        { label: 'TIN_number', value: (row: ISMELoan) => row.TIN_number },
+        { label: 'purpose_of_loan', value: (row: ISMELoan) => row.purpose_of_loan },
+        { label: 'type', value: (row: ISMELoan) => checkType(row.type) },
+        { label: 'status', value: (row: ISMELoan) => checkStatus(row.status) },
+        { label: 'draft', value: (row: ISMELoan) => row.draft  },
+        { label: 'created_at', value: (row: ISMELoan) => row.status  },
+        { label: 'phone', value: (row: ISMELoan) => row.user.phone  },
+        { label: 'email', value: (row: ISMELoan) => row.user.email  },
       ],
-      content: [
-        { user: 'Andrea', age: 20, more: { phone: '11111111' } },
-        { user: 'Luis', age: 21, more: { phone: '12345678' } }
-      ]
-    }, {
-      sheet: 'Children',
-      columns: [
-        { label: 'User', value: 'user' }, // Top level data
-        { label: 'Age', value: (row: any) => (row.age + ' years') }, // Run functions
-        { label: 'Phone', value: (row: any) => (row.more ? row.more.phone || '' : '') }, // Deep props
-      ],
-      content: [
-        { user: 'Manuel', age: 16, more: { phone: '99999999' } },
-        { user: 'Ana', age: 17, more: { phone: '87654321' } }
-      ]
-    }
+      content: users,
+    }, 
   ]
 
     const { refetch } = useQuery(['getusers', token], () => getUsers(token), {

@@ -1,6 +1,6 @@
 import React from 'react'
 import UseDetails from '../../../Hooks/UseDetails'
-import { FiBell, FiMail, FiMessageSquare } from 'react-icons/fi'
+import { FiBell } from 'react-icons/fi'
 
 export default function Navbar() {
     const { user } = UseDetails();
@@ -13,9 +13,9 @@ export default function Navbar() {
                     <div className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
                         <FiBell size={20} className="text-eazicred cursor-pointer" />
                     </div>
-                    <div className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
+                    {/* <div className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
                         <FiMessageSquare size={20} className="text-eazicred cursor-pointer" />
-                    </div>
+                    </div> */}
                 </div>
         </div>
     )
