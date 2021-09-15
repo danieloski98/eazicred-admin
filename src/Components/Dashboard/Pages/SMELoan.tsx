@@ -8,6 +8,7 @@ import Lottie from 'react-lottie'
 import { ISMELoan } from '../../../Types/SMEloan'
 import { FiSearch, FiRefreshCcw, } from 'react-icons/fi'
 import SMEModal from '../Components/SMEModal'
+const xlsx = require('json-as-xlsx')
 
 const getUsers = async (token: string) => {
     console.log(token);
@@ -34,6 +35,39 @@ export default function SMELoan() {
     const [searchTerm, setSearchTerm] = React.useState('');
     const [showModal, setShowModal] = React.useState(false);
     const [currentLoan, setCurrentLoan] = React.useState({} as ISMELoan);
+
+    const settings = {
+        fileName: 'MySpreadsheet', // Name of the spreadsheet
+        extraLength: 3, // A bigger number means that columns will be wider
+        writeOptions: {} // Style options from https://github.com/SheetJS/sheetjs#writing-options
+      }
+    
+
+let data = [
+    {
+      sheet: 'Adults',
+      columns: [
+        { label: 'User', value: 'user' }, // Top level data
+        { label: 'Age', value: (row: any) => (row.age + ' years') }, // Run functions
+        { label: 'Phone', value: (row: any) => (row.more ? row.more.phone || '' : '') }, // Deep props
+      ],
+      content: [
+        { user: 'Andrea', age: 20, more: { phone: '11111111' } },
+        { user: 'Luis', age: 21, more: { phone: '12345678' } }
+      ]
+    }, {
+      sheet: 'Children',
+      columns: [
+        { label: 'User', value: 'user' }, // Top level data
+        { label: 'Age', value: (row: any) => (row.age + ' years') }, // Run functions
+        { label: 'Phone', value: (row: any) => (row.more ? row.more.phone || '' : '') }, // Deep props
+      ],
+      content: [
+        { user: 'Manuel', age: 16, more: { phone: '99999999' } },
+        { user: 'Ana', age: 17, more: { phone: '87654321' } }
+      ]
+    }
+  ]
 
     const { refetch } = useQuery(['getusers', token], () => getUsers(token), {
         onSuccess: (data) => {
@@ -100,7 +134,7 @@ export default function SMELoan() {
                         <InputLeftElement children={<FiSearch size={20} color="grey" />} />
                         <Input className="w-72" placeholder="Search by business name or user email" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
                     </InputGroup>
-                    <button className="w-24 ml-6 text-white bg-green-300 text-sm h-10 rounded">To Excel</button>
+                    <button onClick={() => xlsx(data, settings)} className="w-24 ml-6 text-white bg-green-300 text-sm h-10 rounded">To Excel</button>
                     <div onClick={retry} title="Refresh" className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center transform hover:scale-125 transition-all hover:text-eazicred cursor-pointer ml-6">
                         <FiRefreshCcw size={20}  />
                    </div>
@@ -114,7 +148,7 @@ export default function SMELoan() {
                    
                         <div className="w-full flex flex-col items-center mt-10">
                             <Spinner color="#29ABE2" size="xl" />
-                            <p className="text-eazicred text-xl mt-6">Getting Agents</p>
+                            <p className="text-eazicred text-xl mt-6">Getting SME Loans</p>
                         </div>
                     )
             }

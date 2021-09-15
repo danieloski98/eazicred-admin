@@ -106,16 +106,16 @@ export default function AdminModal({ admin, open, close }: IProps) {
     }
 
     return (
-        <Modal onClose={() => { close(); formik.resetForm(); setStep(1) }} isOpen={open} size="xl" isCentered>
+        <Modal onClose={() => { close(); formik.resetForm(); setStep(1) }} isOpen={open} size="sm" isCentered>
             <ModalOverlay />
             <ModalContent>
                 <ModalCloseButton onClick={() => close()} />
                 {
                     step === 1 ?
                     <ModalBody>
-                    <p className="font-bold text-lg">Details admin</p>
+                    <p className="font-bold text-lg">Admin</p>
                     
-                    <div className="flex w-full h-10 justify-between mt-10">
+                    <div className="flex w-full h-auto flex-col mt-10">
 
                        <div className="flex flex-col">
                            <p className="text-md text-eazicred font-semibold">
@@ -126,7 +126,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
                         </p>
                        </div>
 
-                       <div className="flex flex-col">
+                       <div className="flex flex-col mt-4">
                            <p className="text-md text-eazicred font-semibold">
                                Lastname
                            </p>
@@ -135,7 +135,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
                         </p>
                        </div>
 
-                       <div className="flex flex-col">
+                       <div className="flex flex-col mt-4">
                            <p className="text-md text-eazicred font-semibold">
                                Email
                            </p>
@@ -146,7 +146,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
 
                     </div>
 
-                    <div className="flex w-full h-10 justify-between mt-8 mb-6">
+                    <div className="flex w-full h-auto flex-col mt-4 mb-6">
 {/* 
                        <div className="flex flex-col">
                            <p className="text-md text-eazicred font-semibold">

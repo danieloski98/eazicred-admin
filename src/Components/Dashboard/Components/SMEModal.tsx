@@ -79,14 +79,14 @@ export default function SMEModal({ loan, open, close }: IProps) {
     }
 
     return (
-        <Modal onClose={() => close()} isOpen={open} size="2xl" isCentered>
+        <Modal onClose={() => close()} isOpen={open} size="sm" isCentered>
             <ModalOverlay />
             <ModalContent>
                 <ModalCloseButton onClick={() => close()} />
                 <ModalBody>
                     <p className="font-bold text-lg">Details loan</p>
                     
-                    <div className="flex w-full h-10 justify-between mt-10 text-left">
+                    <div className="flex flex-col w-full justify-between h-auto mt-8 mb-6">
 
                        <div className="flex flex-col">
                            <p className="text-md text-eazicred font-semibold">
@@ -97,7 +97,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
                         </p>
                        </div>
 
-                       <div className="flex flex-col ml-6">
+                       <div className="flex flex-col mt-4">
                            <p className="text-md text-eazicred font-semibold">
                                Business Address
                            </p>
@@ -106,7 +106,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
                         </p>
                        </div>
 
-                       <div className="flex flex-col ml-6">
+                       <div className="flex flex-col mt-4">
                            <p className="text-md text-eazicred font-semibold">
                                RC Number
                            </p>
@@ -117,7 +117,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
 
                     </div>
 
-                    <div className="flex w-full justify-between h-10 mt-8 mb-6">
+                    <div className="flex flex-col w-full justify-between h-auto mt-4">
 
                        <div className="flex flex-col">
                            <p className="text-md text-eazicred font-semibold">
@@ -128,7 +128,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
                         </p>
                        </div>
 
-                       <div className="flex flex-col ml-6">
+                       <div className="flex flex-col mt-4">
                            <p className="text-md text-eazicred font-semibold">
                                Business Up Time
                            </p>
@@ -137,7 +137,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
                         </p>
                        </div>
 
-                       <div className="flex flex-col ml-6">
+                       <div className="flex flex-col mt-4">
                            <p className="text-md text-eazicred font-semibold">
                                Loan Status
                            </p>
@@ -148,7 +148,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
 
                     </div>
 
-                    <div className="flex w-full h-10 justify-between mt-8 mb-6">
+                    <div className="flex flex-col w-full justify-between h-auto mt-4 mb-6">
 
                         <div className="flex flex-col">
                             <p className="text-md text-eazicred font-semibold">

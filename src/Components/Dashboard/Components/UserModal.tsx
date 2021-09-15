@@ -14,7 +14,7 @@ interface IProps {
 
 export default function UserModal({ user, open, close }: IProps) {
     return (
-        <Modal onClose={() => close()} isOpen={open} size="xl" isCentered>
+        <Modal onClose={() => close()} isOpen={open} size="sm" isCentered>
             <ModalOverlay />
             <ModalContent>
                 <ModalCloseButton onClick={() => close()} />

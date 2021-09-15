@@ -105,7 +105,7 @@ export default function PaydayLoan() {
                    
                         <div className="w-full flex flex-col items-center mt-10">
                             <Spinner color="#29ABE2" size="xl" />
-                            <p className="text-eazicred text-xl mt-6">Getting Agents</p>
+                            <p className="text-eazicred text-xl mt-6">Getting Payday Loans</p>
                         </div>
                     )
             }
