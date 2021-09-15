@@ -106,7 +106,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
     }
 
     return (
-        <Modal onClose={() => close()} isOpen={open} size="xl" isCentered>
+        <Modal onClose={() => { close(); formik.resetForm(); setStep(1) }} isOpen={open} size="xl" isCentered>
             <ModalOverlay />
             <ModalContent>
                 <ModalCloseButton onClick={() => close()} />
@@ -262,7 +262,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
                                 <span>Delete admin</span>
                             }
                         </button>
-                        <button onClick={() => setStep(2)} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
+                        <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
                             <span>update admin</span>
                         </button>
                     </div>
@@ -273,10 +273,10 @@ export default function AdminModal({ admin, open, close }: IProps) {
                                 loading ?
                                 <Spinner color="white" />
                                 :
-                                <span>Update Admin</span>
+                                <span>Update</span>
                             }
                         </button>
-                        <button onClick={() => setStep(1)} className="bg-red-400 text-white text-sm h-10 rounded px-3 ml-4">
+                        <button onClick={() => { formik.resetForm(); setStep(1)} } className="bg-red-400 text-white text-sm h-10 rounded px-3 ml-4">
                             Cancel
                         </button>
                     </div>

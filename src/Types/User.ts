@@ -8,4 +8,5 @@ export interface IUser {
     referralCode: number;
     verified: boolean;
     phone: string;
+    role: number;
 }

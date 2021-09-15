@@ -7,6 +7,7 @@ import { useQuery } from 'react-query'
 import UseDetails from '../../../Hooks/UseDetails'
 import Lottie from 'react-lottie'
 import { IUser } from '../../../Types/User'
+import UserModal from '../Components/UserModal'
 
 const getUsers = async (token: string) => {
     console.log(token);
@@ -31,6 +32,8 @@ export default function Users() {
     const [users,setUsers] = React.useState([] as Array<IUser>);
     const [error, setError] = React.useState(false);
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [currentUser, setCurrentUser] = React.useState({} as IUser)
+    const [showModal, setShowModal] = React.useState(false);
 
     const { refetch } = useQuery(['getusers', token], () => getUsers(token), {
         onSuccess: (data) => {
@@ -54,6 +57,7 @@ export default function Users() {
 
     return (
         <div className="w-full h-full flex flex-col">
+            <UserModal user={currentUser} open={showModal} close={() => setShowModal(false)} />
             <div className="w-full h-24 flex justify-between items-center">
 
                 <div className="flex flex-col">
@@ -120,7 +124,7 @@ export default function Users() {
                                     <td className="pt-6 text-sm">{items.phone}</td>
                                     <td className="pt-6 text-sm">{items.referralCode}</td>
                                     <td className="pt-6 text-sm">
-                                        <button className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View User</button>
+                                        <button onClick={() => {setCurrentUser(items); setShowModal(true) }} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View User</button>
                                     </td>
                                 </tr>
                             ))

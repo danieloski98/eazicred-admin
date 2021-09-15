@@ -5,10 +5,7 @@ import { IApiReturnType } from '../../../Types/ApiReturnType'
 import { useQuery } from 'react-query'
 import UseDetails from '../../../Hooks/UseDetails'
 import Lottie from 'react-lottie'
-import { IAgent } from '../../../Types/Agents'
 import { FiSearch, FiRefreshCcw, } from 'react-icons/fi'
-import AgentModal from '../Components/AgentModal'
-import AddAgentModal from '../Components/AddAgentModal'
 import { IAdmin } from '../../../Types/Admin'
 import AddAdminModal from '../Components/AddAdminModal'
 import AdminModal from '../Components/AdminModal'
@@ -31,7 +28,7 @@ const getAgents = async (token: string) => {
 }
 
 export default function Admin() {
-    const { token, user } = UseDetails();
+    const { token } = UseDetails();
     const [loading, setLoading] = React.useState(true);
     const [users, setUsers] = React.useState([] as Array<IAdmin>);
     const [error, setError] = React.useState(false);
@@ -69,7 +66,7 @@ export default function Admin() {
        <div className="w-full h-full flex flex-col">
             <AddAdminModal open={createModal} close={() => setCreateModal(false)} />
             <AdminModal open={showModal} close={() => setShowModal(false)} admin={currentAdmin} />
-            {/* <AgentModal open={showModal} close={() => setShowModal(false)} agent={currentAgent} /> */}
+          
             <div className="w-full h-24 flex justify-between items-center">
 
                 <div className="flex flex-col">

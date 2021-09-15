@@ -7,6 +7,7 @@ import UseDetails from '../../../Hooks/UseDetails'
 import Lottie from 'react-lottie'
 import { ISMELoan } from '../../../Types/SMEloan'
 import { FiSearch, FiRefreshCcw, } from 'react-icons/fi'
+import SMEModal from '../Components/SMEModal'
 
 const getUsers = async (token: string) => {
     console.log(token);
@@ -31,6 +32,8 @@ export default function SMELoan() {
     const [users,setUsers] = React.useState([] as Array<ISMELoan>);
     const [error, setError] = React.useState(false);
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [showModal, setShowModal] = React.useState(false);
+    const [currentLoan, setCurrentLoan] = React.useState({} as ISMELoan);
 
     const { refetch } = useQuery(['getusers', token], () => getUsers(token), {
         onSuccess: (data) => {
@@ -77,8 +80,14 @@ export default function SMELoan() {
         await refetch()
     }
 
+    const openModal = (loan: ISMELoan) => {
+        setCurrentLoan(loan);
+        setShowModal(true);
+    }
+
     return (
         <div className="w-full h-full flex flex-col">
+            <SMEModal open={showModal} close={() => setShowModal(false)} loan={currentLoan} />
             <div className="w-full h-24 flex justify-between items-center">
 
                 <div className="flex flex-col">
@@ -148,7 +157,7 @@ export default function SMELoan() {
                                     <td className="pt-6 text-sm">{items.user.email}</td>
                                     <td className="pt-6 text-sm">{statusSelector(items.status)}</td>
                                     <td className="pt-6 text-sm">
-                                        <button className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
+                                        <button onClick={() => openModal(items)} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
                                     </td>
                                 </tr>
                             ))
