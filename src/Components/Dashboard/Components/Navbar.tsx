@@ -11,7 +11,7 @@ import local from '../../../utils/url'
 
 // gettings notifications
 const getMessages = async() => {
-    const request = await fetch(`http://localhost:4000/notifications/admin`, {
+    const request = await fetch(`${local}/notifications/admin`, {
         method: 'get'
     });
     const json = await request.json() as IApiReturnType;
