@@ -7,6 +7,9 @@ import UseDetails from '../../../Hooks/UseDetails'
 import Lottie from 'react-lottie'
 import { IPaydayLoan } from '../../../Types/PayDaylaon'
 import { FiSearch, FiRefreshCcw, } from 'react-icons/fi'
+import PaydaylaonModal from '../Components/PaydaylaonModal'
+const xlsx = require('json-as-xlsx')
+
 
 const getUsers = async (token: string) => {
     console.log(token);
@@ -31,6 +34,8 @@ export default function PaydayLoan() {
     const [users,setUsers] = React.useState([] as Array<IPaydayLoan>);
     const [error, setError] = React.useState(false);
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [currentloan, setCurrentLoan] = React.useState({} as IPaydayLoan);
+    const [showModal, setShowModal] = React.useState(false);
 
     const { refetch } = useQuery(['getusers', token], () => getUsers(token), {
         onSuccess: (data) => {
@@ -45,6 +50,70 @@ export default function PaydayLoan() {
             setLoading(false);
         }
     });
+
+    const settings = {
+        fileName: 'Payday Loans', // Name of the spreadsheet
+        extraLength: 3, // A bigger number means that columns will be wider
+        writeOptions: {} // Style options from https://github.com/SheetJS/sheetjs#writing-options
+      }
+
+    let data = [
+        {
+          sheet: 'Payday Loan',
+          columns: [
+            { label: 'firstname', value: (row: IPaydayLoan) => row.user.firstname },
+            { label: 'lastname', value: (row: IPaydayLoan) => row.user.lastname },
+            { label: 'phone', value: (row: IPaydayLoan) => row.user.phone },
+            { label: 'DOB', value: (row: IPaydayLoan) => row.DOB },
+            { label: 'BVN', value: (row: IPaydayLoan) => row.BVN },
+            { label: 'means_of_ID', value: (row: IPaydayLoan) => row.Means_of_ID },
+            { label: 'ID number', value: (row: IPaydayLoan) => row.ID_number },
+            { label: 'Date Issued', value: (row: IPaydayLoan) => row.date_issued },
+            { label: 'Expiry Date', value: (row: IPaydayLoan) => row.expiry_date },
+            { label: 'Alternate Number', value: (row: IPaydayLoan) => row.alt_number },
+            { label: 'Marital Status', value: (row: IPaydayLoan) => row.marital_status },
+            { label: 'Next of Kin Surname', value: (row: IPaydayLoan) => row.next_of_kin_surname },
+            { label: 'Next of Kin Firstname', value: (row: IPaydayLoan) => row.next_of_kin_firstname },
+            { label: 'Next of Relationship', value: (row: IPaydayLoan) => row.next_of_kin_relationship },
+            { label: 'Next of Kin Phone', value: (row: IPaydayLoan) => row.next_of_kin_phone },
+            { label: 'Next of Kin Address', value: (row: IPaydayLoan) => row.next_of_kin_address },
+            { label: 'LGA of residence', value: (row: IPaydayLoan) => row.LGA_of_residence },
+            { label: 'State', value: (row: IPaydayLoan) => row.state },
+            { label: 'Landmark', value: (row: IPaydayLoan) => row.landmark },
+            { label: 'Home Addresss', value: (row: IPaydayLoan) => row.home_address },
+            { label: 'Employment Status', value: (row: IPaydayLoan) => row.employment_status },
+            { label: 'Current Employer', value: (row: IPaydayLoan) => row.current_employer },
+            { label: 'Current Employer Address', value: (row: IPaydayLoan) => row.current_employer_address },
+            { label: 'Current Employment Lnadmark', value: (row: IPaydayLoan) => row.current_employer_landmark },
+            { label: 'Current Employer LGA', value: (row: IPaydayLoan) => row.current_employer_LGA },
+            { label: 'Current Employer State', value: (row: IPaydayLoan) => row.current_employer_state },
+            { label: 'Current Office Phone', value: (row: IPaydayLoan) => row.current_employer_office_number },
+            { label: 'Staff ID Number', value: (row: IPaydayLoan) => row.staff_id },
+            { label: 'Department', value: (row: IPaydayLoan) => row.department },
+            { label: 'Job Title', value: (row: IPaydayLoan) => row.job_title },
+            { label: 'Date Employed', value: (row: IPaydayLoan) => row.date_employed },
+            { label: 'Previous Employer', value: (row: IPaydayLoan) => row.previous_employer },
+            { label: 'Previous Employer Address', value: (row: IPaydayLoan) => row.previous_employer_address },
+            { label: 'Job in 5 Years', value: (row: IPaydayLoan) => row.jobs_in_past_5_years },
+            { label: 'Next Paydate', value: (row: IPaydayLoan) => row.current_paydate },
+            { label: 'Existing Loan', value: (row: IPaydayLoan) => row.existing_loan },
+            { label: 'Existing Loan Type', value: (row: IPaydayLoan) => row.existing_loan_type },
+            { label: 'Amount', value: (row: IPaydayLoan) => row.loan_amount },
+            { label: 'Loan Tenure', value: (row: IPaydayLoan) => row.loan_tenure },
+            { label: 'Account Number', value: (row: IPaydayLoan) => row.account_number },
+            { label: 'Account Name', value: (row: IPaydayLoan) => row.account_name },
+            { label: 'Bank', value: (row: IPaydayLoan) => row.bank_name },
+            { label: 'Hear about us', value: (row: IPaydayLoan) => row.hear_about_us },
+            { label: 'passport', value: (row: IPaydayLoan) => row.passport },
+            { label: 'Government ID', value: (row: IPaydayLoan) => row.government_ID },
+            { label: '6 months bank statement', value: (row: IPaydayLoan) => row.HR_letter_of_confirmation },
+            { label: 'Utility Bill', value: (row: IPaydayLoan) => row.utility_bill },
+            { label: 'Company ID', value: (row: IPaydayLoan) => row.company_id },
+          ],
+          content: users,
+        }, 
+      ]
+
     const statusSelector = (status: number) => {
         switch(status) {
             case 1: {
@@ -79,6 +148,7 @@ export default function PaydayLoan() {
 
     return (
         <div className="w-full h-full flex flex-col">
+            <PaydaylaonModal close={() => setShowModal(false)} open={showModal} loan={currentloan} />
             <div className="w-full h-24 flex justify-between items-center">
 
                 <div className="flex flex-col">
@@ -91,7 +161,7 @@ export default function PaydayLoan() {
                         <InputLeftElement children={<FiSearch size={20} color="grey" />} />
                         <Input className="w-72" placeholder="Search by user email and LGA" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
                     </InputGroup>
-                    <button className="w-24 ml-6 text-white bg-green-300 text-sm h-10 rounded">To Excel</button>
+                    <button onClick={() => xlsx(data, settings)} className="w-24 ml-6 text-white bg-green-300 text-sm h-10 rounded">To Excel</button>
                     <div onClick={retry} title="Refresh" className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center transform hover:scale-125 transition-all hover:text-eazicred cursor-pointer ml-6">
                         <FiRefreshCcw size={20}  />
                    </div>
@@ -147,7 +217,7 @@ export default function PaydayLoan() {
                                     <td className="pt-6 text-sm">{items.user.email}</td>
                                     <td className="pt-6 text-sm">{statusSelector(items.status)}</td>
                                     <td className="pt-6 text-sm">
-                                        <button className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
+                                        <button onClick={() => {setCurrentLoan(items); setShowModal(true)}} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
                                     </td>
                                 </tr>
                             ))

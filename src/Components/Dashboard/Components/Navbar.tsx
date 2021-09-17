@@ -113,7 +113,7 @@ export default function Navbar() {
                         <DrawerCloseButton onClick={() => setOpenDrawer(false)} />
                         <DrawerHeader>
                             <div className="flex">
-                                <p className="text-md text-eazicred font-semibold mb-4">Notifications <span className="mb-6 text-white text-xs bg-red-500 p-1 rounded-full">{messages.filter((item)=> !item.read).length}</span></p>
+                                <p className="text-md text-eazicred font-semibold mb-4">Notifications {messages.length > 0 && <span className="mb-6 text-white text-xs bg-red-500 p-1 rounded-full">{messages.filter((item)=> !item.read).length}</span>}</p>
                                 <div className="w-8 h-8 ml-6 rounded-full transition-all hover:scale-125 transform hover:bg-gray-200 flex justify-center items-center">
                                     <FiRefreshCcw className="text-eazicred" size={20} onClick={() => { setLoading(true); refetch()}} />
                                 </div>
