@@ -78,6 +78,20 @@ export default function SMEModal({ loan, open, close }: IProps) {
         }
     }
 
+    const statusCheck = (status: number) => {
+        switch(status) {
+            case 1: {
+                return 'Pending';
+            }
+            case 2: {
+                return 'Approved';
+            }
+            case 3: {
+                return 'Declined'
+            }
+        }
+    }
+
     return (
         <Modal onClose={() => close()} isOpen={open} size="sm" isCentered>
             <ModalOverlay />
@@ -142,7 +156,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
                                Loan Status
                            </p>
                            <p className="text-sm font-medium text-gray-500">
-                            {loan.status}
+                            {statusCheck(loan.status)}
                         </p>
                        </div>
 
@@ -186,7 +200,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
                         <div className="w-32 flex flex-col">
                             <label>Status</label>
                             <Select className="text-xs" fontSize="xs" disabled={loading} value={status} style={{ color: color(status) }} onChange={(e) => changeStatus(parseInt(e.target.value))}>
-                                <option value={1} disabled className="text-gold-400">Processing</option>
+                                <option value={1} className="text-gold-400">Processing</option>
                                 <option value={2}>Approved</option>
                                 <option value={3}>Declined</option>
                             </Select>
