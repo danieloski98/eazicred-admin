@@ -190,7 +190,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
 
                 <p className="text-md font-semibold mt-8">Personal Information</p>
                 
-                <div className="flex w-full justify-between h-auto mt-4 mb-6">
+                {/* <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
                    <div className="flex flex-col text-left flex-1">
                        <p className="text-md text-eazicred font-semibold">
@@ -211,7 +211,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                    </div>
 
 
-                </div>
+                </div> */}
 
 
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
@@ -283,14 +283,14 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
 
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
-                        <div className="flex flex-col text-left flex-1">
+                        {/* <div className="flex flex-col text-left flex-1">
                             <p className="text-md text-eazicred font-semibold">
                                 phone
                             </p>
                             <p className="text-sm font-medium text-gray-500">
                             {loan['user'].phone}
                         </p>
-                        </div>
+                        </div> */}
 
                         <div className="flex flex-col text-left flex-1">
                             <p className="text-md text-eazicred font-semibold">
