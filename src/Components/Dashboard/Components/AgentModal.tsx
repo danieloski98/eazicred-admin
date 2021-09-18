@@ -4,6 +4,7 @@ import { Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, ModalFo
 import local from '../../../utils/url';
 import { IApiReturnType } from '../../../Types/ApiReturnType';
 import { queryClient } from '../../..';
+import UseDetails from '../../../Hooks/UseDetails';
 
 interface IProps {
     agent: IAgent;
@@ -13,6 +14,7 @@ interface IProps {
 
 export default function AgentModal({ agent, open, close }: IProps) {
     const [loading, setLoading] = React.useState(false);
+    const { user } = UseDetails()
 
     const deleteAgent = async () => {
         try {
@@ -98,18 +100,22 @@ export default function AgentModal({ agent, open, close }: IProps) {
 
 
                 </ModalBody>
-                <ModalFooter>
-                    <div className="w-full flex">
-                        <button onClick={deleteAgent} className="bg-red-400 text-white text-sm h-10 rounded px-3">
-                            {
-                                loading ?
-                                <Spinner color="white" />
-                                :
-                                <span>Delete Agent</span>
-                            }
-                        </button>
-                    </div>
-                </ModalFooter>
+              {
+                  user.role === 1 && (
+                    <ModalFooter>
+                        <div className="w-full flex">
+                            <button onClick={deleteAgent} className="bg-red-400 text-white text-sm h-10 rounded px-3">
+                                {
+                                    loading ?
+                                    <Spinner color="white" />
+                                    :
+                                    <span>Delete Agent</span>
+                                }
+                            </button>
+                        </div>
+                    </ModalFooter>
+                  )
+              }
             </ModalContent>
         </Modal>
     )

@@ -81,7 +81,7 @@ export default function AddAdminModal({ open, close }: IProps) {
         <ModalContent>
             <ModalCloseButton onClick={() => close()} />
             <ModalBody>
-                <p className="font-bold text-lg">Create Agent</p>
+                <p className="font-bold text-lg">Create Admin</p>
                 
                 <div className="flex flex-col w-full h-auto justify-between mt-10">
 

@@ -28,7 +28,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
     const [loading, setLoading] = React.useState(false);
     const [step, setStep] = React.useState(1);
     // const [loading, setLoading] = React.useState(false);
-    const { token } = UseDetails()
+    const { token, user } = UseDetails()
 
     const formik = useFormik({
         initialValues: {
@@ -254,17 +254,23 @@ export default function AdminModal({ admin, open, close }: IProps) {
                     {
                         step === 1 ?
                         <div className="w-full flex">
-                        <button onClick={deleteadmin} className="bg-red-400 text-white text-sm h-10 rounded px-3">
-                            {
-                                loading ?
-                                <Spinner color="white" />
-                                :
-                                <span>Delete admin</span>
-                            }
-                        </button>
-                        <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
-                            <span>update admin</span>
-                        </button>
+                        {
+                            user.role === 1 && (
+                                <div className="w-full">
+                                                <button onClick={deleteadmin} className="bg-red-400 text-white text-sm h-10 rounded px-3">
+                                        {
+                                            loading ?
+                                            <Spinner color="white" />
+                                            :
+                                            <span>Delete admin</span>
+                                        }
+                                    </button>
+                                    <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
+                                        <span>update admin</span>
+                                    </button>
+                                </div>
+                            )
+                        }
                     </div>
                     :
                     <div className="w-full flex">

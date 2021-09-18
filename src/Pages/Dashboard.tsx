@@ -18,7 +18,7 @@ export default function Dashboard() {
     const [, setUser] = useRecoilState(UserAtom);
     const [, setToken] = useRecoilState(tokenAtom);
   
-    React.useEffect(() => {
+    React.useMemo(() => {
       const userState = localStorage.getItem('eazi-user');
       const tokenData = localStorage.getItem('eazi-token');
   
@@ -35,7 +35,7 @@ export default function Dashboard() {
             history.push(location.pathname);
         }
       }
-    });
+    }, []);
     return (
         <div className="w-screen h-screen flex">
             <div className="w-72 h-full bg-gray-200 z-20 shadow-lg">

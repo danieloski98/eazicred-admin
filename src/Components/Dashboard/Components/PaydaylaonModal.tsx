@@ -15,7 +15,7 @@ interface IProps {
 export default function PaydaylaonModal({ loan, open, close }: IProps) {
     const [loading, setLoading] = React.useState(false);
     const [status, setStatus] = React.useState(parseInt(loan.status as any))
-    const { token } = UseDetails();
+    const { token, user } = UseDetails();
 
 
     const deleteloan = async () => {
@@ -742,25 +742,29 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
 
 
             </ModalBody>
-            <ModalFooter>
-                <div className="w-full flex items-end">
-                    <div className="w-32 flex flex-col">
-                        <label>Status</label>
-                        <Select className="text-xs" fontSize="xs" disabled={loading} value={status} style={{ color: color(status) }} onChange={(e) => changeStatus(parseInt(e.target.value))}>
-                            <option value={1} className="text-gold-400">Processing</option>
-                            <option value={2}>Approved</option>
-                            <option value={3}>Declined</option>
-                        </Select>
-                    </div>
-                    {
-                        loading && (
-                            <div className="ml-6 bg-red">
-                                <Spinner size="lg" color="blue" />
+            {
+                user.role === 1 && (
+                    <ModalFooter>
+                        <div className="w-full flex items-end">
+                            <div className="w-32 flex flex-col">
+                                <label>Status</label>
+                                <Select className="text-xs" fontSize="xs" disabled={loading} value={status} style={{ color: color(status) }} onChange={(e) => changeStatus(parseInt(e.target.value))}>
+                                    <option value={1} className="text-gold-400">Processing</option>
+                                    <option value={2}>Approved</option>
+                                    <option value={3}>Declined</option>
+                                </Select>
                             </div>
-                        )
-                    }
-                </div>
-            </ModalFooter>
+                            {
+                                loading && (
+                                    <div className="ml-6 bg-red">
+                                        <Spinner size="lg" color="blue" />
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </ModalFooter>
+                )
+            }
         </ModalContent>
     </Modal>
     )
