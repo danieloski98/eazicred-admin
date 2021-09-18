@@ -1,12 +1,19 @@
 import React from 'react'
 import { FiHome, FiActivity, FiClock, FiUsers } from 'react-icons/fi'
-import { useLocation, NavLink } from 'react-router-dom'
+import { useLocation, NavLink, useHistory } from 'react-router-dom'
 
 const ACTIVECLASS = "w-full h-12 border-l-4 border-eazicred flex items-center mt-8 text-eazicred cursor-pointer"
 const INACTIVECLASS = "w-full h-12 border-eazicred flex items-center mt-8 text-gray-500 cursor-pointer"
 
 export default function Sidebar() {
-    const location = useLocation()
+    const location = useLocation();
+    const history = useHistory();
+
+    const logout = () => {
+        localStorage.removeItem('eazi-user');
+        localStorage.removeItem('eazi-token');
+        history.push('/');
+    }
 
     return (
         <div className="w-full h-full flex flex-col">
@@ -65,7 +72,7 @@ export default function Sidebar() {
             </div>
 
             <div className="w-full h-20 flex items-center justify-center">
-                <p className="text-eazicred text-md font-sans cursor-pointer">Log out</p>
+                <p onClick={logout} className="text-eazicred text-md font-sans cursor-pointer">Log out</p>
             </div>
         </div>
     )
