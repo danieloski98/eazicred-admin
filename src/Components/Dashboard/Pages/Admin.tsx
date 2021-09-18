@@ -28,7 +28,7 @@ const getAgents = async (token: string) => {
 }
 
 export default function Admin() {
-    const { token } = UseDetails();
+    const { token, user } = UseDetails();
     const [loading, setLoading] = React.useState(true);
     const [users, setUsers] = React.useState([] as Array<IAdmin>);
     const [error, setError] = React.useState(false);
@@ -79,7 +79,7 @@ export default function Admin() {
                         <InputLeftElement children={<FiSearch size={20} color="grey" />} />
                         <Input className="w-72" placeholder="Search by email or firstname" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
                     </InputGroup>
-                    <button onClick={() => setCreateModal(true)} className="w-24 h-10 rounded bg-eazicred text-sm text-white ml-6">Add Admin</button>
+                    { user.role === 1 && <button onClick={() => setCreateModal(true)} className="w-24 h-10 rounded bg-eazicred text-sm text-white ml-6">Add Admin</button> }
                     <div onClick={retry} title="Refresh" className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center transform hover:scale-125 transition-all hover:text-eazicred cursor-pointer ml-6">
                         <FiRefreshCcw size={20}  />
                    </div>

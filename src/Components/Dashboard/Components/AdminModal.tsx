@@ -270,6 +270,23 @@ export default function AdminModal({ admin, open, close }: IProps) {
                                     </button>
                                 </div>
                             )
+                        } 
+                        {
+                            user.id === admin.id && (
+                                <div className="w-full">
+                                                <button onClick={deleteadmin} className="bg-red-400 text-white text-sm h-10 rounded px-3">
+                                        {
+                                            loading ?
+                                            <Spinner color="white" />
+                                            :
+                                            <span>Delete admin</span>
+                                        }
+                                    </button>
+                                    <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
+                                        <span>update admin</span>
+                                    </button>
+                                </div>
+                            )
                         }
                     </div>
                     :
