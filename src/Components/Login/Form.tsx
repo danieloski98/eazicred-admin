@@ -48,15 +48,15 @@ export default function LoginForm() {
       const json = await res.json() as IApiReturnType;
 
       if (json.statusCode === 200) {
-        localStorage.setItem('user', JSON.stringify(json.data.amdin));
-        localStorage.setItem('token', json.data.token);
+        localStorage.setItem('eazi-user', JSON.stringify(json.data.amdin));
+        localStorage.setItem('eazi-token', json.data.token);
 
           setAdmin(json.data.amdin);
           setToken(json.data.token);
           setLoading(false);
           alert(json.successMessage);
           console.log(json);
-          history.push('/dashboard');
+          history.push('/dashboard/users');
          
       }
 

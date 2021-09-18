@@ -64,14 +64,14 @@ export default function PaydayLoan() {
             { label: 'firstname', value: (row: IPaydayLoan) => row.user.firstname },
             { label: 'lastname', value: (row: IPaydayLoan) => row.user.lastname },
             { label: 'phone', value: (row: IPaydayLoan) => row.user.phone },
-            { label: 'DOB', value: (row: IPaydayLoan) => row.DOB },
+            { label: 'DOB', value: (row: IPaydayLoan) => new Date(row.DOB).toDateString() },
             { label: 'BVN', value: (row: IPaydayLoan) => row.BVN },
             { label: 'means_of_ID', value: (row: IPaydayLoan) => row.Means_of_ID },
             { label: 'ID number', value: (row: IPaydayLoan) => row.ID_number },
-            { label: 'Date Issued', value: (row: IPaydayLoan) => row.date_issued },
-            { label: 'Expiry Date', value: (row: IPaydayLoan) => row.expiry_date },
+            { label: 'Date Issued', value: (row: IPaydayLoan) => new Date(row.date_issued).toDateString() },
+            { label: 'Expiry Date', value: (row: IPaydayLoan) => new Date(row.expiry_date ).toDateString() },
             { label: 'Alternate Number', value: (row: IPaydayLoan) => row.alt_number },
-            { label: 'Marital Status', value: (row: IPaydayLoan) => row.marital_status },
+            { label: 'Marital Status', value: (row: IPaydayLoan) => marital(row.marital_status) },
             { label: 'Next of Kin Surname', value: (row: IPaydayLoan) => row.next_of_kin_surname },
             { label: 'Next of Kin Firstname', value: (row: IPaydayLoan) => row.next_of_kin_firstname },
             { label: 'Next of Relationship', value: (row: IPaydayLoan) => row.next_of_kin_relationship },
@@ -81,7 +81,7 @@ export default function PaydayLoan() {
             { label: 'State', value: (row: IPaydayLoan) => row.state },
             { label: 'Landmark', value: (row: IPaydayLoan) => row.landmark },
             { label: 'Home Addresss', value: (row: IPaydayLoan) => row.home_address },
-            { label: 'Employment Status', value: (row: IPaydayLoan) => row.employment_status },
+            { label: 'Employment Status', value: (row: IPaydayLoan) => employmemntStatus(row.employment_status) },
             { label: 'Current Employer', value: (row: IPaydayLoan) => row.current_employer },
             { label: 'Current Employer Address', value: (row: IPaydayLoan) => row.current_employer_address },
             { label: 'Current Employment Lnadmark', value: (row: IPaydayLoan) => row.current_employer_landmark },
@@ -91,13 +91,13 @@ export default function PaydayLoan() {
             { label: 'Staff ID Number', value: (row: IPaydayLoan) => row.staff_id },
             { label: 'Department', value: (row: IPaydayLoan) => row.department },
             { label: 'Job Title', value: (row: IPaydayLoan) => row.job_title },
-            { label: 'Date Employed', value: (row: IPaydayLoan) => row.date_employed },
+            { label: 'Date Employed', value: (row: IPaydayLoan) => new Date(row.date_employed).toDateString() },
             { label: 'Previous Employer', value: (row: IPaydayLoan) => row.previous_employer },
             { label: 'Previous Employer Address', value: (row: IPaydayLoan) => row.previous_employer_address },
             { label: 'Job in 5 Years', value: (row: IPaydayLoan) => row.jobs_in_past_5_years },
-            { label: 'Next Paydate', value: (row: IPaydayLoan) => row.current_paydate },
-            { label: 'Existing Loan', value: (row: IPaydayLoan) => row.existing_loan },
-            { label: 'Existing Loan Type', value: (row: IPaydayLoan) => row.existing_loan_type },
+            { label: 'Next Paydate', value: (row: IPaydayLoan) => new Date(row.current_paydate).toDateString() },
+            { label: 'Existing Loan', value: (row: IPaydayLoan) => row.existing_loan ? 'yes':'no' },
+            { label: 'Existing Loan Type', value: (row: IPaydayLoan) => loantype(row.existing_loan_type) },
             { label: 'Amount', value: (row: IPaydayLoan) => row.loan_amount },
             { label: 'Loan Tenure', value: (row: IPaydayLoan) => row.loan_tenure },
             { label: 'Account Number', value: (row: IPaydayLoan) => row.account_number },
@@ -144,6 +144,72 @@ export default function PaydayLoan() {
         setLoading(true);
         setError(false);
         await refetch()
+    }
+
+    const employmemntStatus = (num: number) => {
+        switch(num) {
+            case 1: {
+                return 'FullTime';
+            }
+            case 2: {
+                return 'PartTime'
+            }
+            case 3: {
+                return 'Retired'
+            }
+            case 4: {
+                return 'SelfEmployed'
+            }
+            case 5: {
+                return 'TemporaryContract'
+            }
+            case 6: {
+                return 'OutSourcedContract'
+            }
+        }
+    }
+
+    const marital = (num: number) => {
+        switch(num) {
+            case 1: {
+                return 'SINGLE'
+            }
+            case 2: {
+                return 'MARRIED'
+            }
+            case 3: {
+                return 'DIVORCED'
+            }
+            case 4: {
+                return 'SEPERATED'
+            }
+            case 5: {
+                return 'WIDOWED'
+            }
+        }
+    }
+
+    const loantype = (num: number) => {
+        switch(num) {
+            case 1: {
+                return 'MORTGAGE'
+            }
+            case 2: {
+                return 'OVERDRAFT'
+            }
+            case 3: {
+                return 'CARLOAN'
+            }
+            case 4: {
+                return 'BUSINESSLOAN'
+            }
+            case 5: {
+                return 'CREDITCARDLOAN'
+            }
+            case 6: {
+                return 'PERSONALLOAN'
+            }
+        }
     }
 
     return (

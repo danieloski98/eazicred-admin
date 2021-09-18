@@ -8,6 +8,10 @@ import { IApiReturnType } from '../../../Types/ApiReturnType'
 import { INotification } from '../../../Types/Notification'
 import Lottie from 'react-lottie'
 import local from '../../../utils/url'
+import { useHistory } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import { UserAtom, tokenAtom } from '../../../State/UserState'
+import { IAdmin } from '../../../Types/Admin'
 
 // gettings notifications
 const getMessages = async() => {
@@ -29,6 +33,7 @@ export default function Navbar() {
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
     const { user } = UseDetails();
+
 
     // query
     const { refetch } = useQuery('getnotifications', () => getMessages(), {
@@ -97,7 +102,7 @@ export default function Navbar() {
         <div className="w-full h-20 border-b-2 border-gray-200 pl-8 flex items-center justify-between pr-8">
                 <p className="font-bold text-black">Dashboard</p>
                 <div className="flex w-auto justify-between items-center">
-                    <p className="text-eazicred text-sm font-bold mr-4">{user.email.toUpperCase()}</p>
+                    <p className="text-eazicred text-sm font-bold mr-4">{user.email !== undefined ? user.email.toUpperCase(): ''}</p>
                     <div onClick={() => setOpenDrawer(true)} className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
                         <FiBell size={20} className="text-eazicred cursor-pointer" />
                     </div>
@@ -154,7 +159,7 @@ export default function Navbar() {
                                                         </div>
                                                     </div>
                                                     <div className="w-full flex justify-between items-center">
-                                                        <span className="text-xs mt-2 text-black">{new Date(item.created_at).toUTCString()}</span>
+                                                        <span className="text-xs mt-2 text-black">{`${new Date(item.created_at).toLocaleString()}`}</span>
                                                         {!item.read && <Checkbox title="mark as read" checked={item.read} onChange={() => markasread(item.id)}/>}
                                                         {item.read && <div className="bg-green-100 text-green-400 w-16 h-6 rounded flex justify-center items-center text-xs mt-2"><p>opened</p></div> }
                                                     </div>

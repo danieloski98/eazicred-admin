@@ -3,10 +3,9 @@ import { Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, ModalFo
 import local from '../../../utils/url';
 import { IApiReturnType } from '../../../Types/ApiReturnType';
 import { queryClient } from '../../..';
-import { ISMELoan } from '../../../Types/SMEloan';
 import UseDetails from '../../../Hooks/UseDetails';
 import { IPaydayLoan } from '../../../Types/PayDaylaon';
-
+import * as axios from 'axios';
 interface IProps {
     loan: IPaydayLoan;
     open: boolean;
@@ -94,6 +93,92 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
         }
     }
 
+    const employmemntStatus = (num: number) => {
+        switch(num) {
+            case 1: {
+                return 'FullTime';
+            }
+            case 2: {
+                return 'PartTime'
+            }
+            case 3: {
+                return 'Retired'
+            }
+            case 4: {
+                return 'SelfEmployed'
+            }
+            case 5: {
+                return 'TemporaryContract'
+            }
+            case 6: {
+                return 'OutSourcedContract'
+            }
+        }
+    }
+
+    const marital = (num: number) => {
+        switch(num) {
+            case 1: {
+                return 'SINGLE'
+            }
+            case 2: {
+                return 'MARRIED'
+            }
+            case 3: {
+                return 'DIVORCED'
+            }
+            case 4: {
+                return 'SEPERATED'
+            }
+            case 5: {
+                return 'WIDOWED'
+            }
+        }
+    }
+
+    const loantype = (num: number) => {
+        switch(num) {
+            case 1: {
+                return 'MORTGAGE'
+            }
+            case 2: {
+                return 'OVERDRAFT'
+            }
+            case 3: {
+                return 'CARLOAN'
+            }
+            case 4: {
+                return 'BUSINESSLOAN'
+            }
+            case 5: {
+                return 'CREDITCARDLOAN'
+            }
+            case 6: {
+                return 'PERSONALLOAN'
+            }
+        }
+    }
+
+    // trigger download
+    const download = async(linkk, name?: string) => {
+        const ext = linkk.split('-')[1].split('.')[1];
+        console.log(ext);
+        axios.default({
+            url:'https://source.unsplash.com/random/500x500',
+            method:'GET',
+            responseType: 'blob'
+    })
+    .then((response) => {
+           const url = window.URL
+           .createObjectURL(new Blob([response.data]));
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.setAttribute('download', name ? `${name}.${ext}`:'image.jpg');
+                  document.body.appendChild(link);
+                  link.click();
+    })
+}
+
 
     return (
         <Modal onClose={() => close()} isOpen={open} size="lg" isCentered scrollBehavior="inside">
@@ -101,7 +186,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
         <ModalContent>
             <ModalCloseButton onClick={() => close()} />
             <ModalBody>
-                <p className="font-bold text-lg">Details loan</p>
+                <p className="font-bold text-lg">loan Details</p>
 
                 <p className="text-md font-semibold mt-8">Personal Information</p>
                 
@@ -112,7 +197,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                            Firstname
                        </p>
                        <p className="text-sm font-medium text-gray-500">
-                        {/* {loan.user.firstname} */}
+                        {loan['user'].firstname}
                     </p>
                    </div>
 
@@ -121,7 +206,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                           Lastname
                        </p>
                        <p className="text-sm font-medium text-gray-500">
-                        {/* {loan.user.lastname} */}
+                        {loan['user'].lastname}
                     </p>
                    </div>
 
@@ -136,7 +221,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                            DOB
                        </p>
                        <p className="text-sm font-medium text-gray-500">
-                        {loan.DOB}
+                        {new Date(loan.DOB).toDateString()}
                     </p>
                    </div>
 
@@ -181,7 +266,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 Date Issued
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan.date_issued}
+                            {new Date(loan.date_issued).toDateString()}
                         </p>
                         </div>
 
@@ -190,7 +275,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 Expiry Date
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan.expiry_date}
+                            {new Date(loan.expiry_date).toDateString()}
                         </p>
                         </div>
 
@@ -203,7 +288,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 phone
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {/* {loan.user.phone} */}
+                            {loan['user'].phone}
                         </p>
                         </div>
 
@@ -225,7 +310,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 Marital Status
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan.marital_status}
+                            {marital(loan.marital_status)}
                         </p>
                         </div>
 
@@ -343,7 +428,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 Employment Status
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan.employment_status}
+                            {employmemntStatus(loan.employment_status)}
                         </p>
                         </div>
 
@@ -453,7 +538,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 Date Employed
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan.date_employed}
+                            {new Date(loan.date_employed).toDateString()}
                         </p>
                         </div>
 
@@ -501,7 +586,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 Next Payday
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan.current_paydate}
+                            {new Date(loan.current_paydate).toDateString()}
                         </p>
                         </div>
 
@@ -523,7 +608,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                                 Existing Loan Type
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan.existing_loan_type}
+                            {loantype(loan.existing_loan_type)}
                         </p>
                         </div>
 
@@ -602,17 +687,21 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
                         <div className="flex flex-col text-left flex-1">
-                            <p className="text-md text-eazicred font-semibold">
+                            <p className="text-sm mb-1 text-eazicred font-semibold">
                                 Passport Photograph
                             </p>
-                            <a href={loan.passport} rel="noreferrer" download className="w-32 h-10 rounded bg-eazicred text-white flex justify-center items-center">Download</a> 
+                           
+                            <p  onClick={() => download(loan.passport, 'passport')}
+                            className="w-20 h-8 rounded bg-eazicred text-white flex justify-center items-center text-xs cursor-pointer">Download</p>     
                         </div>
 
                         <div className="flex flex-col text-left flex-1">
-                            <p className="text-md text-eazicred font-semibold">
+                            <p className="text-sm mb-1 text-eazicred font-semibold">
                                 Givernment ID
                             </p>
-                            <a href={loan.government_ID} rel="noreferrer" download className="w-32 h-10 rounded bg-eazicred text-white flex justify-center items-center">Download</a> 
+                            
+                            <p  onClick={() => download(loan.government_ID, 'government-id')}
+                            className="w-20 h-8 rounded bg-eazicred text-white flex justify-center items-center text-xs cursor-pointer">Download</p>     
                         </div>
 
                 </div>
@@ -620,17 +709,21 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
                         <div className="flex flex-col text-left flex-1">
-                            <p className="text-md text-eazicred font-semibold">
+                            <p className="text-sm mb-1 text-eazicred font-semibold">
                                 6 Month Bank Statement
                             </p>
-                            <a href={loan.HR_letter_of_confirmation} rel="noreferrer" download className="w-32 h-10 rounded bg-eazicred text-white flex justify-center items-center">Download</a> 
+                
+                            <p  onClick={() => download(loan.HR_letter_of_confirmation, '6-months-bank-statement')}
+                            className="w-20 h-8 rounded bg-eazicred text-white flex justify-center items-center text-xs cursor-pointer">Download</p>     
                         </div>
 
                         <div className="flex flex-col text-left flex-1">
-                            <p className="text-md text-eazicred font-semibold">
+                            <p className="text-sm mb-1 text-eazicred font-semibold">
                                 Utility Bill
                             </p>
-                            <a href={loan.utility_bill} rel="noreferrer" download className="w-32 h-10 rounded bg-eazicred text-white flex justify-center items-center">Download</a> 
+                            
+                            <p  onClick={() => download(loan.utility_bill, 'utility_bill')}
+                            className="w-20 h-8 rounded bg-eazicred text-white flex justify-center items-center text-xs cursor-pointer">Download</p>  
                         </div>
 
                 </div>
@@ -638,10 +731,11 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
                         <div className="flex flex-col text-left flex-1">
-                            <p className="text-md text-eazicred font-semibold">
+                            <p className="text-sm mb-1 text-eazicred font-semibold">
                                 Company ID
                             </p>
-                            <a href={loan.company_id} rel="noreferrer" download className="w-32 h-10 rounded bg-eazicred text-white flex justify-center items-center">Download</a>                        
+                            <p  onClick={() => download(loan.company_id, 'company-id')}
+                            className="w-20 h-8 rounded bg-eazicred text-white flex justify-center items-center text-xs cursor-pointer">Download</p>                        
                         </div>
 
                 </div>
