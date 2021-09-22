@@ -164,7 +164,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
         const ext = linkk.split('-')[1].split('.')[1];
         console.log(ext);
         axios.default({
-            url:'https://source.unsplash.com/random/500x500',
+            url: linkk,
             method:'GET',
             responseType: 'blob'
     })
