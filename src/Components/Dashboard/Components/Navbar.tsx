@@ -106,6 +106,11 @@ export default function Navbar() {
                     <div onClick={() => setOpenDrawer(true)} className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
                         <FiBell size={20} className="text-eazicred cursor-pointer" />
                     </div>
+                    {
+                        messages.filter((item) =>!item.read).length > 0 && (
+                            <p className="rounded-full p-1 text-white text-xs mb-6 bg-red-500">{messages.filter((item) => !item.read).length}</p>
+                        )
+                    }
                     {/* <div className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
                         <FiMessageSquare size={20} className="text-eazicred cursor-pointer" />
                     </div> */}
