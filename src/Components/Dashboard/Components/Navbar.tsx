@@ -8,10 +8,6 @@ import { IApiReturnType } from '../../../Types/ApiReturnType'
 import { INotification } from '../../../Types/Notification'
 import Lottie from 'react-lottie'
 import local from '../../../utils/url'
-import { useHistory } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import { UserAtom, tokenAtom } from '../../../State/UserState'
-import { IAdmin } from '../../../Types/Admin'
 
 // gettings notifications
 const getMessages = async() => {

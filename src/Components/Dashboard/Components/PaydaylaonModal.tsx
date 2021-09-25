@@ -190,28 +190,36 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
 
                 <p className="text-md font-semibold mt-8">Personal Information</p>
                 
-                {/* <div className="flex w-full justify-between h-auto mt-4 mb-6">
+                <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
-                   <div className="flex flex-col text-left flex-1">
-                       <p className="text-md text-eazicred font-semibold">
-                           Firstname
-                       </p>
-                       <p className="text-sm font-medium text-gray-500">
-                        {loan['user'].firstname}
-                    </p>
-                   </div>
+                   {
+                       loan.user && (
+                        <div className="flex flex-col text-left flex-1">
+                            <p className="text-md text-eazicred font-semibold">
+                                Firstname
+                            </p>
+                            <p className="text-sm font-medium text-gray-500">
+                            {loan['user'].firstname}
+                            </p>
+                        </div>
+                        )
+                   }
 
-                   <div className="flex flex-col text-left flex-1">
-                       <p className="text-md text-eazicred font-semibold">
-                          Lastname
-                       </p>
-                       <p className="text-sm font-medium text-gray-500">
-                        {loan['user'].lastname}
-                    </p>
-                   </div>
+                   {
+                       loan.user && (
+                        <div className="flex flex-col text-left flex-1">
+                            <p className="text-md text-eazicred font-semibold">
+                            Lastname
+                            </p>
+                            <p className="text-sm font-medium text-gray-500">
+                            {loan['user'].lastname}
+                            </p>
+                        </div>
+                       )
+                   }
 
 
-                </div> */}
+                </div>
 
 
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
@@ -283,14 +291,18 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
 
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
-                        {/* <div className="flex flex-col text-left flex-1">
-                            <p className="text-md text-eazicred font-semibold">
-                                phone
-                            </p>
-                            <p className="text-sm font-medium text-gray-500">
-                            {loan['user'].phone}
-                        </p>
-                        </div> */}
+                        {
+                            loan.user && (
+                                <div className="flex flex-col text-left flex-1">
+                                    <p className="text-md text-eazicred font-semibold">
+                                        phone
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                    {loan['user'].phone}
+                                    </p>
+                                </div>
+                            )
+                        }
 
                         <div className="flex flex-col text-left flex-1">
                             <p className="text-md text-eazicred font-semibold">

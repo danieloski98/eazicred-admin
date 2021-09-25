@@ -93,7 +93,7 @@ export default function SMEModal({ loan, open, close }: IProps) {
     }
 
     return (
-        <Modal onClose={() => close()} isOpen={open} size="sm" isCentered>
+        <Modal onClose={() => close()} isOpen={open} size="sm" isCentered scrollBehavior="inside">
             <ModalOverlay />
             <ModalContent>
                 <ModalCloseButton onClick={() => close()} />
@@ -173,23 +173,57 @@ export default function SMEModal({ loan, open, close }: IProps) {
                         </p>
                         </div>
 
-                        {/* <div className="flex flex-col ml-6">
-                            <p className="text-md text-eazicred font-semibold">
-                               User Email
-                            </p>
-                            <p className="text-sm font-medium text-gray-500">
-                            {loan.user.email}
-                        </p>
-                        </div>
+                        {
+                            loan.user && (
+                                <div className="flex flex-col mt-4">
+                                    <p className="text-md text-eazicred font-semibold">
+                                    Firstname
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                    {loan.user.firstname}
+                                    </p>
+                                </div>
+                            )
+                        }
 
-                        <div className="flex flex-col ml-6">
-                            <p className="text-md text-eazicred font-semibold">
-                                User Phone Number
-                            </p>
-                            <p className="text-sm font-medium text-gray-500">
-                            {loan.user.phone}
-                        </p>
-                        </div> */}
+                        {
+                            loan.user && (
+                                <div className="flex flex-col mt-6">
+                                    <p className="text-md text-eazicred font-semibold">
+                                        Lastname
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                    {loan.user.lastname}
+                                    </p>
+                                </div>
+                            )
+                        }
+
+                        {
+                            loan.user && (
+                                <div className="flex flex-col mt-4">
+                                    <p className="text-md text-eazicred font-semibold">
+                                    User Email
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                    {loan.user.email}
+                                    </p>
+                                </div>
+                            )
+                        }
+
+                        {
+                            loan.user && (
+                                <div className="flex flex-col mt-6">
+                                    <p className="text-md text-eazicred font-semibold">
+                                        User Phone Number
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                    {loan.user.phone}
+                                    </p>
+                                </div>
+                            )
+                        }
 
                     </div>
 

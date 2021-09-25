@@ -172,7 +172,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
                 </ModalBody>
                 : 
                 <ModalBody>
-                <p className="font-bold text-lg">Create Agent</p>
+                <p className="font-bold text-lg">Edit Admin</p>
                 
                 <div className="flex flex-col w-full h-auto justify-between mt-10">
 
@@ -235,7 +235,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
                            Role
                        </p>
 
-                        <Select type="role" name="role" value={formik.values.role} onChange={formik.handleChange} onBlur={formik.handleBlur} >
+                        <Select type="role" name="role" disabled={user.role !== 1} value={formik.values.role} onChange={formik.handleChange} onBlur={formik.handleBlur} >
                             <option value={1}>Super Admin</option>
                             <option value={2}>Admin</option>
                         </Select>
