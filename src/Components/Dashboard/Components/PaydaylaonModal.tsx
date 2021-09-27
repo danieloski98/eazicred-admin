@@ -709,7 +709,7 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
 
                         <div className="flex flex-col text-left flex-1">
                             <p className="text-sm mb-1 text-eazicred font-semibold">
-                                Givernment ID
+                                Government ID
                             </p>
                             
                             <p  onClick={() => download(loan.government_ID, 'government-id')}
