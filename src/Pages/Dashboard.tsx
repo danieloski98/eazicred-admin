@@ -45,8 +45,8 @@ export default function Dashboard() {
                 <Navbar />
                 <div className="flex-1 overflow-y-auto pt-10 pl-8 pr-8">
                     <Switch>
-                        <Route path="/dashboard" exact render={() => <Redirect to="/dashboard/users" />}/>
-                        <Route path="/dashboard/users" component={Users} exact/>
+                        <Route path="/dashboard" exact render={() => <Redirect to="/dashboard/smeloans" />}/>
+                        {/* <Route path="/dashboard/users" component={Users} exact/> */}
                         <Route path="/dashboard/paydayloans" component={PaydayLoan} exact/>
                         <Route path="/dashboard/smeloans" component={SMELoan} exact />
                         <Route path="/dashboard/agents" component={Agents} exact />

@@ -193,26 +193,26 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
                    {
-                       loan.user && (
+                       loan.firstname && (
                         <div className="flex flex-col text-left flex-1">
                             <p className="text-md text-eazicred font-semibold">
                                 Firstname
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan['user'].firstname}
+                            {loan.firstname}
                             </p>
                         </div>
                         )
                    }
 
                    {
-                       loan.user && (
+                       loan.lastname && (
                         <div className="flex flex-col text-left flex-1">
                             <p className="text-md text-eazicred font-semibold">
                             Lastname
                             </p>
                             <p className="text-sm font-medium text-gray-500">
-                            {loan['user'].lastname}
+                            {loan.lastname}
                             </p>
                         </div>
                        )
@@ -292,13 +292,13 @@ export default function PaydaylaonModal({ loan, open, close }: IProps) {
                 <div className="flex w-full justify-between h-auto mt-4 mb-6">
 
                         {
-                            loan.user && (
+                            loan.phone && (
                                 <div className="flex flex-col text-left flex-1">
                                     <p className="text-md text-eazicred font-semibold">
                                         phone
                                     </p>
                                     <p className="text-sm font-medium text-gray-500">
-                                    {loan['user'].phone}
+                                    {loan.phone}
                                     </p>
                                 </div>
                             )

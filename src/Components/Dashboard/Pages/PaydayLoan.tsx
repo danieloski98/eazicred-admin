@@ -61,9 +61,9 @@ export default function PaydayLoan() {
         {
           sheet: 'Payday Loan',
           columns: [
-            { label: 'firstname', value: (row: IPaydayLoan) => row.user.firstname },
-            { label: 'lastname', value: (row: IPaydayLoan) => row.user.lastname },
-            { label: 'phone', value: (row: IPaydayLoan) => row.user.phone },
+            { label: 'firstname', value: (row: IPaydayLoan) => row.firstname },
+            { label: 'lastname', value: (row: IPaydayLoan) => row.lastname },
+            { label: 'phone', value: (row: IPaydayLoan) => row.phone },
             { label: 'DOB', value: (row: IPaydayLoan) => new Date(row.DOB).toDateString() },
             { label: 'BVN', value: (row: IPaydayLoan) => row.BVN },
             { label: 'means_of_ID', value: (row: IPaydayLoan) => row.Means_of_ID },
@@ -74,7 +74,7 @@ export default function PaydayLoan() {
             { label: 'Marital Status', value: (row: IPaydayLoan) => marital(row.marital_status) },
             { label: 'Next of Kin Surname', value: (row: IPaydayLoan) => row.next_of_kin_surname },
             { label: 'Next of Kin Firstname', value: (row: IPaydayLoan) => row.next_of_kin_firstname },
-            { label: 'Next of Relationship', value: (row: IPaydayLoan) => row.next_of_kin_relationship },
+            //{ label: 'Next of Relationship', value: (row: IPaydayLoan) => row.next_of_kin_relationship || '' },
             { label: 'Next of Kin Phone', value: (row: IPaydayLoan) => row.next_of_kin_phone },
             { label: 'Next of Kin Address', value: (row: IPaydayLoan) => row.next_of_kin_address },
             { label: 'LGA of residence', value: (row: IPaydayLoan) => row.LGA_of_residence },
@@ -87,14 +87,14 @@ export default function PaydayLoan() {
             { label: 'Current Employment Lnadmark', value: (row: IPaydayLoan) => row.current_employer_landmark },
             { label: 'Current Employer LGA', value: (row: IPaydayLoan) => row.current_employer_LGA },
             { label: 'Current Employer State', value: (row: IPaydayLoan) => row.current_employer_state },
-            { label: 'Current Office Phone', value: (row: IPaydayLoan) => row.current_employer_office_number },
+            //{ label: 'Current Office Phone', value: (row: IPaydayLoan) => row.current_employer_office_number },
             { label: 'Staff ID Number', value: (row: IPaydayLoan) => row.staff_id },
             { label: 'Department', value: (row: IPaydayLoan) => row.department },
             { label: 'Job Title', value: (row: IPaydayLoan) => row.job_title },
-            { label: 'Date Employed', value: (row: IPaydayLoan) => new Date(row.date_employed).toDateString() },
-            { label: 'Previous Employer', value: (row: IPaydayLoan) => row.previous_employer },
-            { label: 'Previous Employer Address', value: (row: IPaydayLoan) => row.previous_employer_address },
-            { label: 'Job in 5 Years', value: (row: IPaydayLoan) => row.jobs_in_past_5_years },
+            //{ label: 'Date Employed', value: (row: IPaydayLoan) => new Date(row.date_employed).toDateString() },
+            //{ label: 'Previous Employer', value: (row: IPaydayLoan) => row.previous_employer },
+            //{ label: 'Previous Employer Address', value: (row: IPaydayLoan) => row.previous_employer_address },
+            //{ label: 'Job in 5 Years', value: (row: IPaydayLoan) => row.jobs_in_past_5_years },
             { label: 'Next Paydate', value: (row: IPaydayLoan) => new Date(row.current_paydate).toDateString() },
             { label: 'Existing Loan', value: (row: IPaydayLoan) => row.existing_loan ? 'yes':'no' },
             { label: 'Existing Loan Type', value: (row: IPaydayLoan) => loantype(row.existing_loan_type) },
@@ -260,27 +260,29 @@ export default function PaydayLoan() {
                 <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
                 <table className="h-auto overflow-y-auto w-full">
                     
+                       <thead>
                         <tr className="h-10  border-b-2 border-gray-200">
-                            <th className="w-20 text-left">S/N</th>
-                            <th className="w-40 text-left">Name</th>
-                            <th className="w-40 text-left">User Email</th>
-                            <th className="w-40 text-left">Status</th>
-                            
-                            <th className="w-20 text-left">Action</th>
-                        </tr>
+                                <th className="w-20 text-left">S/N</th>
+                                <th className="w-40 text-left">Name</th>
+                                <th className="w-40 text-left">User Email</th>
+                                <th className="w-40 text-left">Status</th>
+                                
+                                <th className="w-20 text-left">Action</th>
+                            </tr>
+                       </thead>
                    
                         {
                             users.filter((val) => {
                                 if (searchTerm === '') {
                                     return val
-                                } else if (val.user.email.toLowerCase().includes(searchTerm.toLowerCase()) || val.LGA_of_residence.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                } else if (val.email.toLowerCase().includes(searchTerm.toLowerCase()) || val.LGA_of_residence.toLowerCase().includes(searchTerm.toLowerCase())) {
                                     return val;
                                 }
                             }).map((items, index) => (
                                 <tr className="pt-6" key={index.toString()}>
                                     <td className="pt-6">{index+1}</td>
-                                    <td className="pt-6 text-sm">{items.user.firstname} {items.user.lastname}</td>
-                                    <td className="pt-6 text-sm">{items.user.email}</td>
+                                    <td className="pt-6 text-sm">{items.firstname || '' } {items.lastname || ''}</td>
+                                    <td className="pt-6 text-sm">{items.email}</td>
                                     <td className="pt-6 text-sm">{statusSelector(items.status)}</td>
                                     <td className="pt-6 text-sm">
                                         <button onClick={() => {setCurrentLoan(items); setShowModal(true)}} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>

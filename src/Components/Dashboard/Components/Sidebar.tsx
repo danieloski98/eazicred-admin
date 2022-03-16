@@ -24,14 +24,14 @@ export default function Sidebar() {
             <div className="flex-1 flex flex-col pt-10">
                 <p className="font-semibold text-gray-600 text-md text-center">ADMIN MANAGEMENT</p>
 
-                <NavLink
+                {/* <NavLink
                 to="/dashboard/users"
                 >
                     <div className={location.pathname === '/dashboard/users' ? ACTIVECLASS:INACTIVECLASS}>
                         <FiHome size={20} className="ml-12" />
                         <p className="text-sm ml-2">Users</p>
                     </div>
-                </NavLink>
+                </NavLink> */}
 
                 <NavLink
                     to="/dashboard/paydayloans"

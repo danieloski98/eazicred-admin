@@ -13,5 +13,6 @@ export interface ISMELoan {
     status: number;
     draft: boolean
     created_at: string;
-    user: IUser;
+    phone: string;
+    email: string;
 }

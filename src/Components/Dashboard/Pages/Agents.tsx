@@ -106,8 +106,16 @@ export default function Agents() {
                 )
             }
 
+{
+               !loading && !error && users.length < 1 && (
+                <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
+                    <p>No Agents</p>
+                </div>
+               )
+           }
+
            {
-               !loading && !error && (
+               !loading && !error && users.length > 0 && (
                 <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
                 <table className="h-auto overflow-y-auto w-full">
                     
@@ -139,9 +147,6 @@ export default function Agents() {
                                 </tr>
                             ))
                         }
-                  
-                        
-                        
 
                     
                     </table>

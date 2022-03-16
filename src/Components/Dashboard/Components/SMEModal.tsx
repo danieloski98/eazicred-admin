@@ -173,8 +173,8 @@ export default function SMEModal({ loan, open, close }: IProps) {
                         </p>
                         </div>
 
-                        {
-                            loan.user && (
+                        {/* {
+                            loan.email && loan.phone && (
                                 <div className="flex flex-col mt-4">
                                     <p className="text-md text-eazicred font-semibold">
                                     Firstname
@@ -197,29 +197,29 @@ export default function SMEModal({ loan, open, close }: IProps) {
                                     </p>
                                 </div>
                             )
-                        }
+                        } */}
 
                         {
-                            loan.user && (
+                            loan.email && (
                                 <div className="flex flex-col mt-4">
                                     <p className="text-md text-eazicred font-semibold">
                                     User Email
                                     </p>
                                     <p className="text-sm font-medium text-gray-500">
-                                    {loan.user.email}
+                                    {loan.email}
                                     </p>
                                 </div>
                             )
                         }
 
                         {
-                            loan.user && (
+                            loan.phone && (
                                 <div className="flex flex-col mt-6">
                                     <p className="text-md text-eazicred font-semibold">
                                         User Phone Number
                                     </p>
                                     <p className="text-sm font-medium text-gray-500">
-                                    {loan.user.phone}
+                                    {loan.phone}
                                     </p>
                                 </div>
                             )

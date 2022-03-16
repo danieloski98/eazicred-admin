@@ -94,8 +94,8 @@ let data = [
         { label: 'status', value: (row: ISMELoan) => checkStatus(row.status) },
         { label: 'draft', value: (row: ISMELoan) => checkDraft(row.draft as any)  },
         { label: 'created_at', value: (row: ISMELoan) => new Date(row.created_at).toUTCString()  },
-        { label: 'phone', value: (row: ISMELoan) => row.user.phone  },
-        { label: 'email', value: (row: ISMELoan) => row.user.email  },
+        { label: 'phone', value: (row: ISMELoan) => row.phone  },
+        { label: 'email', value: (row: ISMELoan) => row.email  },
       ],
       content: users,
     }, 
@@ -105,6 +105,7 @@ let data = [
         onSuccess: (data) => {
             console.log(data);
             setUsers(data.data);
+            console.log(data);
             setLoading(false);
             setError(false);
         },
@@ -200,27 +201,29 @@ let data = [
                 <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
                 <table className="h-auto overflow-y-auto w-full">
                     
+                       <thead>
                         <tr className="h-10  border-b-2 border-gray-200">
-                            <th className="w-20 text-left">S/N</th>
-                            <th className="w-40 text-left">Business Name</th>
-                            <th className="w-40 text-left">User Email</th>
-                            <th className="w-40 text-left">Status</th>
-                            
-                            <th className="w-20 text-left">Action</th>
-                        </tr>
+                                <th className="w-20 text-left">S/N</th>
+                                <th className="w-40 text-left">Business Name</th>
+                                <th className="w-40 text-left">User Email</th>
+                                <th className="w-40 text-left">Status</th>
+                                
+                                <th className="w-20 text-left">Action</th>
+                            </tr>
+                       </thead>
                    
                         {
-                            users.filter((val) => {
+                            users !== null && users.filter((val) => {
                                 if (searchTerm === '') {
                                     return val
-                                } else if (val.user.email.toLowerCase().includes(searchTerm.toLowerCase()) || val.business_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                } else if (val.email.toLowerCase().includes(searchTerm.toLowerCase()) || val.business_name.toLowerCase().includes(searchTerm.toLowerCase())) {
                                     return val;
                                 }
                             }).map((items, index) => (
                                 <tr className="pt-6" key={index.toString()}>
                                     <td className="pt-6">{index+1}</td>
                                     <td className="pt-6 text-sm">{items.business_name}</td>
-                                    <td className="pt-6 text-sm">{items.user.email}</td>
+                                    <td className="pt-6 text-sm">{items.email}</td>
                                     <td className="pt-6 text-sm">{statusSelector(items.status)}</td>
                                     <td className="pt-6 text-sm">
                                         <button onClick={() => openModal(items)} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>

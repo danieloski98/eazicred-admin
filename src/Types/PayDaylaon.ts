@@ -119,5 +119,11 @@ export interface IPaydayLoan {
     
       draft: boolean;
     
-      user: IUser;
+      email: string;
+
+      firstname: string;
+
+      lastname: string;
+      
+      phone: string;
 }
