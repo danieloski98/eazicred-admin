@@ -1,3 +1,4 @@
+import { IAgent } from "./Agents";
 import { EMPLOYMENT_STATUS } from "./enums/Employmentstatus";
 import { IUser } from "./User";
 
@@ -126,4 +127,6 @@ export interface IPaydayLoan {
       lastname: string;
       
       phone: string;
+
+      agent?: IAgent;
 }

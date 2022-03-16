@@ -1,5 +1,5 @@
 import React from 'react'
-import { InputGroup, InputLeftElement, Input, Spinner } from '@chakra-ui/react'
+import { InputGroup, InputLeftElement, Input, Spinner, Table, Thead, Tbody, Tr, Td } from '@chakra-ui/react'
 import local from '../../../utils/url'
 import { IApiReturnType } from '../../../Types/ApiReturnType'
 import { useQuery } from 'react-query'
@@ -257,19 +257,19 @@ export default function PaydayLoan() {
 
            {
                !loading && !error && (
-                <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
-                <table className="h-auto overflow-y-auto w-full">
+                <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll overflow-x-hidden">
+                <Table className="h-auto overflow-y-auto w-full overflow-x-hidden">
                     
-                       <thead>
-                        <tr className="h-10  border-b-2 border-gray-200">
-                                <th className="w-20 text-left">S/N</th>
-                                <th className="w-40 text-left">Name</th>
-                                <th className="w-40 text-left">User Email</th>
-                                <th className="w-40 text-left">Status</th>
-                                
-                                <th className="w-20 text-left">Action</th>
-                            </tr>
-                       </thead>
+                       <Thead>
+                        <Tr className="h-10  border-b-2 border-gray-200">
+                                <Td className="w-20 text-left">S/N</Td>
+                                <Td className="w-40 text-left">Name</Td>
+                                {/* <Td className="w-40 text-left">User Email</Td> */}
+                                <Td className="w-40 text-left">Agent Email</Td>
+                                <Td className="w-40 text-left">Status</Td>
+                                <Td className="w-20 text-left">Action</Td>
+                            </Tr>
+                       </Thead>
                    
                         {
                             users.filter((val) => {
@@ -279,15 +279,16 @@ export default function PaydayLoan() {
                                     return val;
                                 }
                             }).map((items, index) => (
-                                <tr className="pt-6" key={index.toString()}>
-                                    <td className="pt-6">{index+1}</td>
-                                    <td className="pt-6 text-sm">{items.firstname || '' } {items.lastname || ''}</td>
-                                    <td className="pt-6 text-sm">{items.email}</td>
-                                    <td className="pt-6 text-sm">{statusSelector(items.status)}</td>
-                                    <td className="pt-6 text-sm">
+                                <Tr className="pt-6" key={index.toString()}>
+                                    <Td className="pt-6">{index+1}</Td>
+                                    <Td className="pt-6 text-sm">{items.firstname || '' } {items.lastname || ''}</Td>
+                                    {/* <Td className="pt-6 text-sm">{items.email}</Td> */}
+                                    <Td className="pt-6 text-sm">{items.agent?.email}</Td>
+                                    <Td className="pt-6 text-sm">{statusSelector(items.status)}</Td>
+                                    <Td className="pt-6 text-sm">
                                         <button onClick={() => {setCurrentLoan(items); setShowModal(true)}} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
-                                    </td>
-                                </tr>
+                                    </Td>
+                                </Tr>
                             ))
                         }
                   
@@ -295,7 +296,7 @@ export default function PaydayLoan() {
                         
 
                     
-                    </table>
+                    </Table>
                 </div>
                )
            }

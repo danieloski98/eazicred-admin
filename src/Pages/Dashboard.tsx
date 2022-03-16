@@ -43,7 +43,7 @@ export default function Dashboard() {
             </div>
             <div className="flex-1">
                 <Navbar />
-                <div className="flex-1 overflow-y-auto pt-10 pl-8 pr-8">
+                <div className="flex-1 overflow-y-auto overflow-x-hidden pt-10 pl-8 pr-8">
                     <Switch>
                         <Route path="/dashboard" exact render={() => <Redirect to="/dashboard/smeloans" />}/>
                         {/* <Route path="/dashboard/users" component={Users} exact/> */}
