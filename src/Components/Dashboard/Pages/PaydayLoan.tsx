@@ -286,7 +286,7 @@ export default function PaydayLoan() {
                                     <Td className="pt-6 text-sm">{items.agent?.email}</Td>
                                     <Td className="pt-6 text-sm">{statusSelector(items.status)}</Td>
                                     <Td className="pt-6 text-sm">
-                                        <button onClick={() => {setCurrentLoan(items); setShowModal(true)}} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
+                                        <button onClick={() => {setCurrentLoan(items); setShowModal(true); console.log(items)}} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
                                     </Td>
                                 </Tr>
                             ))
