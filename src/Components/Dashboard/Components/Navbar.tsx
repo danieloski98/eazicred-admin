@@ -1,7 +1,15 @@
 import React from 'react'
 import UseDetails from '../../../Hooks/UseDetails'
 import { FiBell, FiRefreshCcw, FiTrash2 } from 'react-icons/fi'
-import { Drawer, DrawerOverlay, DrawerContent, DrawerBody, DrawerHeader, Divider, DrawerCloseButton, Spinner, Checkbox } from '@chakra-ui/react'
+import { Box, Spinner } from '@chakra-ui/react'
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+    DrawerBackdrop,
+    DrawerBody,
+    DrawerContent,
+    DrawerHeader,
+    DrawerRoot,
+} from "@/components/ui/drawer"
 import { useQuery } from 'react-query'
 //import url from '../../../utils/url'
 import { IApiReturnType } from '../../../Types/ApiReturnType'
@@ -10,7 +18,7 @@ import Lottie from 'react-lottie'
 import local from '../../../utils/url'
 
 // gettings notifications
-const getMessages = async() => {
+const getMessages = async () => {
     const request = await fetch(`${local}/notifications/admin`, {
         method: 'get'
     });
@@ -35,7 +43,7 @@ export default function Navbar() {
     const { refetch } = useQuery('getnotifications', () => getMessages(), {
         onSuccess: (data) => {
             console.log(data);
-            const read = (data.data as INotification[]).filter((item) => item.read).sort((a,b) => {
+            const read = (data.data as INotification[]).filter((item) => item.read).sort((a, b) => {
                 let x = a.created_at.toLowerCase();
                 let y = b.created_at.toLowerCase();
 
@@ -43,7 +51,7 @@ export default function Navbar() {
                 if (x < y) { return 1 }
                 return 0;
             });
-            const notread = (data.data as INotification[]).filter((item) => !item.read).sort((a,b) => {
+            const notread = (data.data as INotification[]).filter((item) => !item.read).sort((a, b) => {
                 let x = a.created_at.toLowerCase();
                 let y = b.created_at.toLowerCase();
 
@@ -59,12 +67,13 @@ export default function Navbar() {
             setError(false);
         },
         onError: (error) => {
+            console.error(error)
             setLoading(false);
             setError(true);
         }
     })
 
-    const deletenoti = async(id: string) => {
+    const deletenoti = async (id: string) => {
         setLoading(true);
         setError(false);
         const request = await fetch(`${local}/notifications/${id}`, {
@@ -79,7 +88,7 @@ export default function Navbar() {
         }
     }
 
-    const markasread = async(id: string) => {
+    const markasread = async (id: string) => {
         setLoading(true);
         setError(false);
         const request = await fetch(`${local}/notifications/read/${id}`, {
@@ -95,86 +104,83 @@ export default function Navbar() {
     }
 
     return (
-        <div className="w-full h-20 border-b-2 border-gray-200 pl-8 flex items-center justify-between pr-8">
-                <p className="font-bold text-black">Dashboard</p>
-                <div className="flex w-auto justify-between items-center">
-                    <p className="text-eazicred text-sm font-bold mr-4">{user.email !== undefined ? user.email.toUpperCase(): ''}</p>
-                    <div onClick={() => setOpenDrawer(true)} className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
-                        <FiBell size={20} className="text-eazicred cursor-pointer" />
-                    </div>
-                    {
-                        messages.filter((item) =>!item.read).length > 0 && (
-                            <p className="rounded-full p-1 text-white text-xs mb-6 bg-red-500">{messages.filter((item) => !item.read).length}</p>
-                        )
-                    }
-                    {/* <div className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
+        <Box w="100%" h="100px" borderBottom={'1px'} borderBottomColor={'grey'} display={'flex'} justifyContent={'space-between'} alignItems={'center'} px='20px'>
+            <p className="font-bold text-black">Dashboard</p>
+            <div className="flex w-auto justify-between items-center">
+                <p className="text-eazicred text-sm font-bold mr-4">{user.email !== undefined ? user.email.toUpperCase() : ''}</p>
+                <div onClick={() => setOpenDrawer(true)} className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
+                    <FiBell size={20} className="text-eazicred cursor-pointer" />
+                </div>
+                {
+                    messages.filter((item) => !item.read).length > 0 && (
+                        <p className="rounded-full p-1 text-white text-xs mb-6 bg-red-500">{messages.filter((item) => !item.read).length}</p>
+                    )
+                }
+                {/* <div className="flex w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
                         <FiMessageSquare size={20} className="text-eazicred cursor-pointer" />
                     </div> */}
-                </div>
+            </div>
 
-                {/* header section */}
-                <Drawer isOpen={openDrawer} onClose={() => setOpenDrawer(false)} >
-                    <DrawerOverlay />
-                    <DrawerContent>
-                        <DrawerCloseButton onClick={() => setOpenDrawer(false)} />
-                        <DrawerHeader>
-                            <div className="flex">
-                                <p className="text-md text-eazicred font-semibold mb-4">Notifications {messages.length > 0 && <span className="mb-6 text-white text-xs bg-red-500 p-1 rounded-full">{messages.filter((item)=> !item.read).length}</span>}</p>
-                                <div className="w-8 h-8 ml-6 rounded-full transition-all hover:scale-125 transform hover:bg-gray-200 flex justify-center items-center">
-                                    <FiRefreshCcw className="text-eazicred" size={20} onClick={() => { setLoading(true); refetch()}} />
-                                </div>
+            {/* header section */}
+            <DrawerRoot open={openDrawer} onOpenChange={() => setOpenDrawer(false)} >
+                <DrawerBackdrop />
+                <DrawerContent>
+                    <DrawerHeader>
+                        <div className="flex border-b border--2">
+                            <p className="text-md text-eazicred font-semibold mb-4">Notifications {messages.length > 0 && <span className="mb-6 text-white text-xs bg-red-500 p-1 rounded-full">{messages.filter((item) => !item.read).length}</span>}</p>
+                            <div className="w-8 h-8 ml-6 rounded-full transition-all hover:scale-125 transform hover:bg-gray-200 flex justify-center items-center">
+                                <FiRefreshCcw className="text-eazicred" size={20} onClick={() => { setLoading(true); refetch() }} />
                             </div>
-                            <Divider />
-                        </DrawerHeader>
+                        </div>
+                    </DrawerHeader>
 
-                        <DrawerBody>
-                            {
-                                !loading && error && (
-                                    <div className="w-full h-64 bg-gray-100 flex flex-col justify-center items-center">
-                                         <Lottie options={{ animationData: require('../../../lottiefiles/error.json'), autoplay: true, loop: true}} width={150} height={150}  />
-                                        An error occured!
-                                    </div>
-                                )
-                            }
-                            {
-                                loading && (
-                                    <div className="w-full h-64 flex flex-col justify-center items-center">
-                                       <Spinner size="xl" color="#29ABE2" />
-                                       <p className="text-md">Loading Notifications</p>
-                                    </div>
-                                )
-                            }
-                            {
-                                !loading && !error &&
-                                (
-                                    <div className="w-full">
+                    <DrawerBody>
+                        {
+                            !loading && error && (
+                                <div className="w-full h-64 bg-gray-100 flex flex-col justify-center items-center">
+                                    <Lottie options={{ animationData: require('../../../lottiefiles/error.json'), autoplay: true, loop: true }} width={150} height={150} />
+                                    An error occured!
+                                </div>
+                            )
+                        }
+                        {
+                            loading && (
+                                <div className="w-full h-64 flex flex-col justify-center items-center">
+                                    <Spinner size="xl" color="#29ABE2" />
+                                    <p className="text-md">Loading Notifications</p>
+                                </div>
+                            )
+                        }
+                        {
+                            !loading && !error &&
+                            (
+                                <div className="w-full">
 
-                                        {
-                                            messages.map((item, index) => (
-                                                <div className="flex flex-col mb-4">
-                                                    <div className="w-full flex justify-between mb-1 ">
-                                                        
-                                                        <p className="text-sm pr-2 mr-4">{item.message}</p>
-                                                        <div className="text-red-400 flex items-center justify-center">
-                                                            <FiTrash2 size={20} onClick={() => deletenoti(item.id)} className="cursor-pointer"  />
-                                                        </div>
+                                    {
+                                        messages.map((item, index) => (
+                                            <div key={index.toString()} className="flex flex-col mb-4">
+                                                <div className="w-full flex justify-between mb-1 ">
+
+                                                    <p className="text-sm pr-2 mr-4">{item.message}</p>
+                                                    <div className="text-red-400 flex items-center justify-center">
+                                                        <FiTrash2 size={20} onClick={() => deletenoti(item.id)} className="cursor-pointer" />
                                                     </div>
-                                                    <div className="w-full flex justify-between items-center">
-                                                        <span className="text-xs mt-2 text-black">{`${new Date(item.created_at).toLocaleString()}`}</span>
-                                                        {!item.read && <Checkbox title="mark as read" checked={item.read} onChange={() => markasread(item.id)}/>}
-                                                        {item.read && <div className="bg-green-100 text-green-400 w-16 h-6 rounded flex justify-center items-center text-xs mt-2"><p>opened</p></div> }
-                                                    </div>
-                                                    <Divider  className="mt-4" />
                                                 </div>
-                                            ))
-                                        }
+                                                <div className="w-full flex justify-between items-center border-b border-b-2">
+                                                    <span className="text-xs mt-2 text-black">{`${new Date(item.created_at).toLocaleString()}`}</span>
+                                                    {!item.read && <Checkbox title="mark as read" checked={item.read} onChange={() => markasread(item.id)} />}
+                                                    {item.read && <div className="bg-green-100 text-green-400 w-16 h-6 rounded flex justify-center items-center text-xs mt-2"><p>opened</p></div>}
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
 
-                                    </div>
-                                )
-                            }
-                        </DrawerBody>
-                    </DrawerContent>
-                </Drawer>
-        </div>
+                                </div>
+                            )
+                        }
+                    </DrawerBody>
+                </DrawerContent>
+            </DrawerRoot>
+        </Box>
     )
 }

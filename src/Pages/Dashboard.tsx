@@ -5,6 +5,8 @@ import { Outlet } from 'react-router-dom'
 import { useRecoilState } from 'recoil';
 import { tokenAtom, UserAtom } from '../State/UserState';
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useColorMode } from '@/components/ui/color-mode';
+import { Box } from '@chakra-ui/react';
 
 export default function Dashboard() {
     const history = useNavigate();
@@ -12,6 +14,14 @@ export default function Dashboard() {
 
     const [, setUser] = useRecoilState(UserAtom);
     const [, setToken] = useRecoilState(tokenAtom);
+
+    const { toggleColorMode, colorMode } = useColorMode();
+
+    React.useEffect(() => {
+        if (colorMode === 'dark') {
+            toggleColorMode()
+        }
+    }, [])
 
     React.useMemo(() => {
         const userState = localStorage.getItem('eazi-user');
@@ -37,11 +47,11 @@ export default function Dashboard() {
             <div className="w-72 h-full bg-gray-200 z-20 shadow-lg">
                 <Sidebar />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 bg-white">
                 <Navbar />
-                <div className="flex-1 overflow-y-auto overflow-x-hidden pt-10 pl-8 pr-8">
+                <Box flex={1} overflowY={'auto'} overflowX={'hidden'} pt="20px" px="30px">
                     <Outlet />
-                </div>
+                </Box>
             </div>
         </div>
     )

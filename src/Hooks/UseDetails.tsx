@@ -2,7 +2,6 @@ import React from 'react'
 import { useRecoilState, SetterOrUpdater } from 'recoil'
 import { tokenAtom, UserAtom } from '../State/UserState'
 import { IAdmin } from '../Types/Admin';
-import { IUser } from '../Types/User';
 
 interface IReturnType {
     token: string;

@@ -1,5 +1,4 @@
 import React from 'react'
-import { InputGroup, InputLeftElement, Input, Spinner } from '@chakra-ui/react'
 import local from '../../../utils/url'
 import { IApiReturnType } from '../../../Types/ApiReturnType'
 import { useQuery } from 'react-query'
@@ -9,6 +8,9 @@ import { ISMELoan } from '../../../Types/SMEloan'
 import { FiSearch, FiRefreshCcw, } from 'react-icons/fi'
 import SMEModal from '../Components/SMEModal'
 import xlsx from 'json-as-xlsx';
+
+import { InputGroup } from "@/components/ui/input-group"
+import { Input, Spinner, Table } from '@chakra-ui/react'
 
 const getUsers = async (token: string) => {
     console.log(token);
@@ -28,7 +30,7 @@ const getUsers = async (token: string) => {
 }
 
 export default function SMELoan() {
-    const { token, user } = UseDetails();
+    const { token } = UseDetails();
     const [loading, setLoading] = React.useState(true);
     const [users, setUsers] = React.useState([] as Array<ISMELoan>);
     const [error, setError] = React.useState(false);
@@ -163,9 +165,8 @@ export default function SMELoan() {
                 </div>
 
                 <div className="flex">
-                    <InputGroup className="h-12" width="sm">
-                        <InputLeftElement children={<FiSearch size={20} color="grey" />} />
-                        <Input className="w-72" placeholder="Search by business name or user email" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
+                    <InputGroup className="h-12" width="sm" startElement={<FiSearch size={20} color="grey" />}>
+                        <Input className="w-72" placeholder="Search by email or firstname" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
                     </InputGroup>
                     <button onClick={() => xlsx(data as any, settings)} className="w-24 ml-6 text-white bg-green-300 text-sm h-10 rounded">To Excel</button>
                     <div onClick={retry} title="Refresh" className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center transform hover:scale-125 transition-all hover:text-eazicred cursor-pointer ml-6">
@@ -199,18 +200,18 @@ export default function SMELoan() {
             {
                 !loading && !error && (
                     <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
-                        <table className="h-auto overflow-y-auto w-full">
+                        <Table.Root className="h-auto overflow-y-auto w-full">
 
-                            <thead>
-                                <tr className="h-10  border-b-2 border-gray-200">
-                                    <th className="w-20 text-left">S/N</th>
-                                    <th className="w-40 text-left">Business Name</th>
-                                    <th className="w-40 text-left">User Email</th>
-                                    <th className="w-40 text-left">Status</th>
+                            <Table.Header>
+                                <Table.Row className="h-10  border-b-2 border-gray-200">
+                                    <Table.ColumnHeader className="w-20 text-left">S/N</Table.ColumnHeader>
+                                    <Table.ColumnHeader className="w-40 text-left">Business Name</Table.ColumnHeader>
+                                    <Table.ColumnHeader className="w-40 text-left">User Email</Table.ColumnHeader>
+                                    <Table.ColumnHeader className="w-40 text-left">Status</Table.ColumnHeader>
 
-                                    <th className="w-20 text-left">Action</th>
-                                </tr>
-                            </thead>
+                                    <Table.ColumnHeader className="w-20 text-left">Action</Table.ColumnHeader>
+                                </Table.Row>
+                            </Table.Header>
 
                             {
                                 users !== null && users.filter((val) => {
@@ -220,15 +221,15 @@ export default function SMELoan() {
                                         return val;
                                     }
                                 }).map((items, index) => (
-                                    <tr className="pt-6" key={index.toString()}>
-                                        <td className="pt-6">{index + 1}</td>
-                                        <td className="pt-6 text-sm">{items.business_name}</td>
-                                        <td className="pt-6 text-sm">{items.email}</td>
-                                        <td className="pt-6 text-sm">{statusSelector(items.status)}</td>
-                                        <td className="pt-6 text-sm">
+                                    <Table.Row className="pt-6" key={index.toString()}>
+                                        <Table.Cell className="pt-6">{index + 1}</Table.Cell>
+                                        <Table.Cell className="pt-6 text-sm">{items.business_name}</Table.Cell>
+                                        <Table.Cell className="pt-6 text-sm">{items.email}</Table.Cell>
+                                        <Table.Cell className="pt-6 text-sm">{statusSelector(items.status)}</Table.Cell>
+                                        <Table.Cell className="pt-6 text-sm">
                                             <button onClick={() => openModal(items)} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
-                                        </td>
-                                    </tr>
+                                        </Table.Cell>
+                                    </Table.Row>
                                 ))
                             }
 
@@ -236,7 +237,7 @@ export default function SMELoan() {
 
 
 
-                        </table>
+                        </Table.Root>
                     </div>
                 )
             }

@@ -1,5 +1,6 @@
 import React from 'react'
-import { InputGroup, InputLeftElement, Input, Spinner } from '@chakra-ui/react'
+import { InputGroup } from "@/components/ui/input-group"
+import { Input, Spinner } from '@chakra-ui/react'
 import local from '../../../utils/url'
 import { IApiReturnType } from '../../../Types/ApiReturnType'
 import { useQuery } from 'react-query'
@@ -28,9 +29,9 @@ const getAgents = async (token: string) => {
 }
 
 export default function Agents() {
-    const { token, user } = UseDetails();
+    const { token } = UseDetails();
     const [loading, setLoading] = React.useState(true);
-    const [users,setUsers] = React.useState([] as Array<IAgent>);
+    const [users, setUsers] = React.useState([] as Array<IAgent>);
     const [error, setError] = React.useState(false);
     const [searchTerm, setSearchTerm] = React.useState('');
     const [currentAgent, setCurrentAgent] = React.useState({} as IAgent);
@@ -63,7 +64,7 @@ export default function Agents() {
     }
 
     return (
-        <div className="w-full h-full flex flex-col">
+        <div className="w-full h-full flex flex-col px-10">
             <AddAgentModal open={createModal} close={() => setCreateModal(false)} />
             <AgentModal open={showModal} close={() => setShowModal(false)} agent={currentAgent} />
             <div className="w-full h-24 flex justify-between items-center">
@@ -74,85 +75,84 @@ export default function Agents() {
                 </div>
 
                 <div className="flex">
-                    <InputGroup className="h-12" width="sm">
-                        <InputLeftElement children={<FiSearch size={20} color="grey" />} />
+                    <InputGroup className="h-12" width="sm" startElement={<FiSearch size={20} color="grey" />}>
                         <Input className="w-72" placeholder="Search by email or firstname" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
                     </InputGroup>
                     <button onClick={() => setCreateModal(true)} className="w-24 h-10 rounded bg-eazicred text-sm text-white ml-6">Add Agent</button>
                     <div onClick={retry} title="Refresh" className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center transform hover:scale-125 transition-all hover:text-eazicred cursor-pointer ml-6">
-                        <FiRefreshCcw size={20}  />
-                   </div>
+                        <FiRefreshCcw size={20} />
+                    </div>
                 </div>
 
-               
+
 
             </div>
             {
                 loading && (
-                   
-                        <div className="w-full flex flex-col items-center mt-10">
-                            <Spinner color="#29ABE2" size="xl" />
-                            <p className="text-eazicred text-xl mt-6">Getting Agents</p>
-                        </div>
-                    )
+
+                    <div className="w-full flex flex-col items-center mt-10">
+                        <Spinner color="#29ABE2" size="xl" />
+                        <p className="text-eazicred text-xl mt-6">Getting Agents</p>
+                    </div>
+                )
             }
             {
                 !loading && error && (
                     <div className="w-full flex flex-col items-center mt-10">
-                        <Lottie options={{ animationData: require('../../../lottiefiles/error.json'), autoplay: true, loop: true}} width={150} height={150}  />
+                        <Lottie options={{ animationData: require('../../../lottiefiles/error.json'), autoplay: true, loop: true }} width={150} height={150} />
                         <p className="text-center mt-6 font-sans text-sm">An Error Occured!</p>
                         <button className="w-24 h-10 rounded bg-eazicred text-sm text-white mt-6">Retry</button>
                     </div>
                 )
             }
 
-{
-               !loading && !error && users.length < 1 && (
-                <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
-                    <p>No Agents</p>
-                </div>
-               )
-           }
+            {
+                !loading && !error && users.length < 1 && (
+                    <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
+                        <p>No Agents</p>
+                    </div>
+                )
+            }
 
-           {
-               !loading && !error && users.length > 0 && (
-                <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
-                <table className="h-auto overflow-y-auto w-full">
-                    
-                        <tr className="h-10  border-b-2 border-gray-200">
-                            <th className="w-20 text-left">S/N</th>
-                            <th className="w-40 text-left">Name</th>
-                            <th className="w-40 text-left">Email</th>
-                            <th className="w-40 text-left">Phone</th>
-                            
-                            <th className="w-20 text-left">Action</th>
-                        </tr>
-                   
-                        {
-                            users.filter((val) => {
-                                if (searchTerm === '') {
-                                    return val
-                                } else if (val.email.toLowerCase().includes(searchTerm.toLowerCase()) || val.firstname.toLowerCase().includes(searchTerm.toLowerCase())) {
-                                    return val;
-                                }
-                            }).map((items, index) => (
-                                <tr className="pt-6" key={index.toString()}>
-                                    <td className="pt-6">{index+1}</td>
-                                    <td className="pt-6 text-sm">{items.firstname} {items.lastname}</td>
-                                    <td className="pt-6 text-sm">{items.email}</td>
-                                    <td className="pt-6 text-sm">{items.phone}</td>
-                                    <td className="pt-6 text-sm">
-                                        <button onClick={() => selectagent(items)} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Agent</button>
-                                    </td>
-                                </tr>
-                            ))
-                        }
+            {
+                !loading && !error && users.length > 0 && (
+                    <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll">
+                        <table className="h-auto overflow-y-auto w-full">
 
-                    
-                    </table>
-                </div>
-               )
-           }
+                            <tr className="h-10  border-b-2 border-gray-200">
+                                <th className="w-20 text-left">S/N</th>
+                                <th className="w-40 text-left">Name</th>
+                                <th className="w-40 text-left">Email</th>
+                                <th className="w-40 text-left">Phone</th>
+
+                                <th className="w-20 text-left">Action</th>
+                            </tr>
+
+                            {
+                                users.filter((val) => {
+                                    if (searchTerm === '') {
+                                        return val
+                                    } else if (val.email.toLowerCase().includes(searchTerm.toLowerCase()) || val.firstname.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                        return val;
+                                    }
+                                }).map((items, index) => (
+                                    <tr className="pt-6" key={index.toString()}>
+                                        <td className="pt-6">{index + 1}</td>
+                                        <td className="pt-6 text-sm">{items.firstname} {items.lastname}</td>
+                                        <td className="pt-6 text-sm">{items.email}</td>
+                                        <td className="pt-6 text-sm">{items.phone}</td>
+                                        <td className="pt-6 text-sm">
+                                            <button onClick={() => selectagent(items)} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Agent</button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+
+
+                        </table>
+                    </div>
+                )
+            }
         </div>
     )
 }

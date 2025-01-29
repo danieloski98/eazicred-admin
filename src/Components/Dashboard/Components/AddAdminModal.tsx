@@ -1,5 +1,17 @@
 import React from 'react'
-import { Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, ModalFooter, Spinner, Input, InputGroup, InputLeftElement,Select } from '@chakra-ui/react'
+import {
+    NativeSelectField,
+    NativeSelectRoot,
+} from "@/components/ui/native-select"
+import {
+    DialogBody,
+    DialogContent,
+    DialogFooter,
+    DialogRoot,
+} from "@/components/ui/dialog"
+import { InputGroup } from "@/components/ui/input-group"
+import { Input, Spinner } from "@chakra-ui/react"
+
 import local from '../../../utils/url';
 import { IApiReturnType } from '../../../Types/ApiReturnType';
 import { FiUser, FiLock, FiMail } from 'react-icons/fi'
@@ -29,14 +41,14 @@ export default function AddAdminModal({ open, close }: IProps) {
 
     const formik = useFormik({
         initialValues: {
-            firstname:'',
+            firstname: '',
             lastname: '',
             email: '',
             password: '',
             role: 2,
         },
         validationSchema,
-        onSubmit: () => {}
+        onSubmit: () => { }
     })
 
 
@@ -77,101 +89,99 @@ export default function AddAdminModal({ open, close }: IProps) {
     }
 
     return (
-        <Modal onClose={() => close()} isOpen={open} size="md" isCentered>
-        <ModalOverlay />
-        <ModalContent>
-            <ModalCloseButton onClick={() => close()} />
-            <ModalBody>
-                <p className="font-bold text-lg">Create Admin</p>
-                
-                <div className="flex flex-col w-full h-auto justify-between mt-10">
+        <DialogRoot onOpenChange={() => close()} open={open} size="md" placement={'center'}>
+            {
+                <DialogContent>
+                    <DialogBody>
+                        <p className="font-bold text-lg">Create Admin</p>
 
-                   <div className="flex flex-col">
-                       <p className="text-sm text-black">
-                           Firstname
-                       </p>
-                       <InputGroup>
-                        <InputLeftElement children={<FiUser size={20} color="grey" />} />
-                        <Input name="firstname" value={formik.values.firstname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.firstname && formik.errors.firstname && <p className="mt-2 text-red-400 text-xs">{formik.errors.firstname}</p>
-                       }
-                   </div>
+                        <div className="flex flex-col w-full h-auto justify-between mt-10">
 
-                   <div className="flex flex-col mt-3">
-                       <p className="text-sm text-black">
-                           Lastname
-                       </p>
-                      
-                       <InputGroup>
-                        <InputLeftElement children={<FiUser size={20} color="grey" />} />
-                        <Input name="lastname" value={formik.values.lastname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.lastname && formik.errors.lastname && <p className="mt-2 text-red-400 text-xs">{formik.errors.lastname}</p>
-                       }
-                    
-                   </div>
+                            <div className="flex flex-col">
+                                <p className="text-sm text-black">
+                                    Firstname
+                                </p>
+                                <InputGroup startElement={<FiUser size={20} color="grey" />}>
+                                    <Input name="firstname" value={formik.values.firstname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                </InputGroup>
+                                {
+                                    formik.touched.firstname && formik.errors.firstname && <p className="mt-2 text-red-400 text-xs">{formik.errors.firstname}</p>
+                                }
+                            </div>
 
-                   <div className="flex flex-col mt-3">
-                       <p className="text-sm text-black">
-                           Email
-                       </p>
-                       <InputGroup>
-                        <InputLeftElement children={<FiMail size={20} color="grey" />} />
-                        <Input name="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.email && formik.errors.email && <p className="mt-2 text-red-400 text-xs">{formik.errors.email}</p>
-                       }
-                   </div>
+                            <div className="flex flex-col mt-3">
+                                <p className="text-sm text-black">
+                                    Lastname
+                                </p>
 
-                   <div className="flex flex-col mt-3">
-                       <p className="text-sm text-black">
-                           Password
-                       </p>
-                       <InputGroup>
-                        <InputLeftElement children={<FiLock size={20} color="grey" />} />
-                        <Input type="password" name="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.password && formik.errors.password && <p className="mt-2 text-red-400 text-xs">{formik.errors.password}</p>
-                       }
-                   </div>
+                                <InputGroup startElement={<FiUser size={20} color="grey" />}>
+                                    <Input name="lastname" value={formik.values.lastname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                </InputGroup>
+                                {
+                                    formik.touched.lastname && formik.errors.lastname && <p className="mt-2 text-red-400 text-xs">{formik.errors.lastname}</p>
+                                }
 
-                   <div className="flex flex-col mt-3">
-                       <p className="ttext-sm text-black">
-                           Role
-                       </p>
+                            </div>
 
-                        <Select type="role" name="role" value={formik.values.role} onChange={formik.handleChange} onBlur={formik.handleBlur} >
-                            <option value="1">Super Admin</option>
-                            <option value="2">Admin</option>
-                        </Select>
-                 
-                       {
-                           formik.touched.role && formik.errors.role && <p className="mt-2 text-red-400 text-xs">{formik.errors.role}</p>
-                       }
-                   </div>
+                            <div className="flex flex-col mt-3">
+                                <p className="text-sm text-black">
+                                    Email
+                                </p>
+                                <InputGroup startElement={<FiMail size={20} color="grey" />}>
+                                    <Input name="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                </InputGroup>
+                                {
+                                    formik.touched.email && formik.errors.email && <p className="mt-2 text-red-400 text-xs">{formik.errors.email}</p>
+                                }
+                            </div>
 
-                </div>
+                            <div className="flex flex-col mt-3">
+                                <p className="text-sm text-black">
+                                    Password
+                                </p>
+                                <InputGroup startElement={<FiLock size={20} color="grey" />}>
+                                    <Input type="password" name="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                </InputGroup>
+                                {
+                                    formik.touched.password && formik.errors.password && <p className="mt-2 text-red-400 text-xs">{formik.errors.password}</p>
+                                }
+                            </div>
+
+                            <div className="flex flex-col mt-3">
+                                <p className="ttext-sm text-black">
+                                    Role
+                                </p>
+
+                                <NativeSelectRoot>
+                                    <NativeSelectField value={formik.values.role} onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                        <option value="1">Super Admin</option>
+                                        <option value="2">Admin</option>
+                                    </NativeSelectField>
+                                </NativeSelectRoot>
+
+                                {
+                                    formik.touched.role && formik.errors.role && <p className="mt-2 text-red-400 text-xs">{formik.errors.role}</p>
+                                }
+                            </div>
+
+                        </div>
 
 
-            </ModalBody>
-            <ModalFooter>
-                <div className="w-full flex">
-                    <button onClick={createAgent} className="bg-eazicred text-white text-sm h-10 rounded px-3">
-                        {
-                            loading ?
-                            <Spinner color="white" />
-                            :
-                            <span>Create Admin</span>
-                        }
-                    </button>
-                </div>
-            </ModalFooter>
-        </ModalContent>
-    </Modal>
+                    </DialogBody>
+                    <DialogFooter>
+                        <div className="w-full flex">
+                            <button onClick={createAgent} className="bg-eazicred text-white text-sm h-10 rounded px-3">
+                                {
+                                    loading ?
+                                        <Spinner color="white" />
+                                        :
+                                        <span>Create Admin</span>
+                                }
+                            </button>
+                        </div>
+                    </DialogFooter>
+                </DialogContent>
+            }
+        </DialogRoot>
     )
 }

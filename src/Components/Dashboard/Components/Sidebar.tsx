@@ -1,5 +1,5 @@
-import React from 'react'
-import { FiHome, FiActivity, FiClock, FiUsers } from 'react-icons/fi'
+import { Box } from '@chakra-ui/react';
+import { FiActivity, FiClock, FiUsers } from 'react-icons/fi'
 import { useLocation, NavLink, useNavigate } from 'react-router-dom'
 
 const ACTIVECLASS = "w-full h-12 border-l-4 border-blue-500 flex items-center mt-8 text-blue-500 cursor-pointer"
@@ -16,7 +16,7 @@ export default function Sidebar() {
     }
 
     return (
-        <div className="w-full h-full flex flex-col">
+        <Box w="100%" h="100%" display={'flex'} flexDirection={'column'} px="20px">
             <div className="w-full h-20 flex items-center justify-center">
                 <img src="/assets/eazicred-logo.svg" alt="" />
             </div>
@@ -74,6 +74,6 @@ export default function Sidebar() {
             <div className="w-full h-20 flex items-center justify-center">
                 <p onClick={logout} className="text-eazicred text-md font-sans cursor-pointer">Log out</p>
             </div>
-        </div>
+        </Box>
     )
 }

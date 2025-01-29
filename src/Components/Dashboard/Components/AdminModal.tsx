@@ -1,4 +1,3 @@
-import { Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, ModalFooter, Spinner, Input, InputGroup, InputLeftElement, Select } from '@chakra-ui/react'
 import local from '../../../utils/url';
 import { IApiReturnType } from '../../../Types/ApiReturnType';
 import { IAdmin } from '../../../Types/Admin';
@@ -8,6 +7,19 @@ import UseDetails from '../../../Hooks/UseDetails';
 import { FiUser, FiMail, FiLock } from 'react-icons/fi';
 import React from 'react';
 import { useQueryClient } from 'react-query';
+
+import {
+    NativeSelectField,
+    NativeSelectRoot,
+} from "@/components/ui/native-select"
+import {
+    DialogBody,
+    DialogContent,
+    DialogFooter,
+    DialogRoot,
+} from "@/components/ui/dialog"
+import { InputGroup } from "@/components/ui/input-group"
+import { Input, Spinner } from "@chakra-ui/react"
 
 const validationSchema = yup.object({
     firstname: yup.string().required('This field is required'),
@@ -41,7 +53,7 @@ export default function AdminModal({ admin, open, close }: IProps) {
             role: admin.role,
         },
         validationSchema,
-        onSubmit: () => {}
+        onSubmit: () => { }
     })
 
     const deleteadmin = async () => {
@@ -108,48 +120,46 @@ export default function AdminModal({ admin, open, close }: IProps) {
     }
 
     return (
-        <Modal onClose={() => { close(); formik.resetForm(); setStep(1) }} isOpen={open} size="sm" isCentered>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalCloseButton onClick={() => close()} />
+        <DialogRoot onOpenChange={() => { close(); formik.resetForm(); setStep(1) }} open={open} placement={'center'}>
+            <DialogContent>
                 {
                     step === 1 ?
-                    <ModalBody>
-                    <p className="font-bold text-lg">Admin</p>
-                    
-                    <div className="flex w-full h-auto flex-col mt-10">
+                        <DialogBody>
+                            <p className="font-bold text-lg">Admin</p>
 
-                       <div className="flex flex-col">
-                           <p className="text-md text-eazicred font-semibold">
-                               Firstname
-                           </p>
-                           <p className="text-sm font-medium text-gray-500">
-                            {admin.firstname}
-                        </p>
-                       </div>
+                            <div className="flex w-full h-auto flex-col mt-10">
 
-                       <div className="flex flex-col mt-4">
-                           <p className="text-md text-eazicred font-semibold">
-                               Lastname
-                           </p>
-                           <p className="text-sm font-medium text-gray-500">
-                            {admin.lastname}
-                        </p>
-                       </div>
+                                <div className="flex flex-col">
+                                    <p className="text-md text-eazicred font-semibold">
+                                        Firstname
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                        {admin.firstname}
+                                    </p>
+                                </div>
 
-                       <div className="flex flex-col mt-4">
-                           <p className="text-md text-eazicred font-semibold">
-                               Email
-                           </p>
-                           <p className="text-sm font-medium text-gray-500">
-                            {admin.email}
-                        </p>
-                       </div>
+                                <div className="flex flex-col mt-4">
+                                    <p className="text-md text-eazicred font-semibold">
+                                        Lastname
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                        {admin.lastname}
+                                    </p>
+                                </div>
 
-                    </div>
+                                <div className="flex flex-col mt-4">
+                                    <p className="text-md text-eazicred font-semibold">
+                                        Email
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                        {admin.email}
+                                    </p>
+                                </div>
 
-                    <div className="flex w-full h-auto flex-col mt-4 mb-6">
-{/* 
+                            </div>
+
+                            <div className="flex w-full h-auto flex-col mt-4 mb-6">
+                                {/* 
                        <div className="flex flex-col">
                            <p className="text-md text-eazicred font-semibold">
                                Phone
@@ -159,156 +169,155 @@ export default function AdminModal({ admin, open, close }: IProps) {
                         </p>
                        </div> */}
 
-                       <div className="flex flex-col">
-                           <p className="text-md text-eazicred font-semibold">
-                               Role
-                           </p>
-                           <p className="text-sm font-medium text-gray-500">
-                            {admin.role === 1 ? 'Super Admin': 'Admin'}
-                        </p>
-                       </div>
+                                <div className="flex flex-col">
+                                    <p className="text-md text-eazicred font-semibold">
+                                        Role
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-500">
+                                        {admin.role === 1 ? 'Super Admin' : 'Admin'}
+                                    </p>
+                                </div>
 
-                    </div>
-
-
-                </ModalBody>
-                : 
-                <ModalBody>
-                <p className="font-bold text-lg">Edit Admin</p>
-                
-                <div className="flex flex-col w-full h-auto justify-between mt-10">
-
-                   <div className="flex flex-col">
-                       <p className="text-sm text-black">
-                           Firstname
-                       </p>
-                       <InputGroup>
-                        <InputLeftElement children={<FiUser size={20} color="grey" />} />
-                        <Input name="firstname" value={formik.values.firstname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.firstname && formik.errors.firstname && <p className="mt-2 text-red-400 text-xs">{formik.errors.firstname}</p>
-                       }
-                   </div>
-
-                   <div className="flex flex-col mt-3">
-                       <p className="text-sm text-black">
-                           Lastname
-                       </p>
-                      
-                       <InputGroup>
-                        <InputLeftElement children={<FiUser size={20} color="grey" />} />
-                        <Input name="lastname" value={formik.values.lastname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.lastname && formik.errors.lastname && <p className="mt-2 text-red-400 text-xs">{formik.errors.lastname}</p>
-                       }
-                    
-                   </div>
-
-                   <div className="flex flex-col mt-3">
-                       <p className="text-sm text-black">
-                           Email
-                       </p>
-                       <InputGroup>
-                        <InputLeftElement children={<FiMail size={20} color="grey" />} />
-                        <Input name="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.email && formik.errors.email && <p className="mt-2 text-red-400 text-xs">{formik.errors.email}</p>
-                       }
-                   </div>
-
-                   <div className="flex flex-col mt-3">
-                       <p className="text-sm text-black">
-                           Password
-                       </p>
-                       <InputGroup>
-                        <InputLeftElement children={<FiLock size={20} color="grey" />} />
-                        <Input type="password" name="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-                       </InputGroup>
-                       {
-                           formik.touched.password && formik.errors.password && <p className="mt-2 text-red-400 text-xs">{formik.errors.password}</p>
-                       }
-                   </div>
-
-                   <div className="flex flex-col mt-3">
-                       <p className="ttext-sm text-black">
-                           Role
-                       </p>
-
-                        <Select name="role" disabled={user.role !== 1} value={formik.values.role} onChange={formik.handleChange} onBlur={formik.handleBlur} >
-                            <option value={1}>Super Admin</option>
-                            <option value={2}>Admin</option>
-                        </Select>
-                 
-                       {
-                           formik.touched.role && formik.errors.role && <p className="mt-2 text-red-400 text-xs">{formik.errors.role}</p>
-                       }
-                   </div>
-
-                </div>
+                            </div>
 
 
-            </ModalBody>
+                        </DialogBody>
+                        :
+                        <DialogBody>
+                            <p className="font-bold text-lg">Edit Admin</p>
+
+                            <div className="flex flex-col w-full h-auto justify-between mt-10">
+
+                                <div className="flex flex-col">
+                                    <p className="text-sm text-black">
+                                        Firstname
+                                    </p>
+                                    <InputGroup startElement={<FiUser size={20} color="grey" />}>
+                                        <Input name="firstname" value={formik.values.firstname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                    </InputGroup>
+                                    {
+                                        formik.touched.firstname && formik.errors.firstname && <p className="mt-2 text-red-400 text-xs">{formik.errors.firstname}</p>
+                                    }
+                                </div>
+
+                                <div className="flex flex-col mt-3">
+                                    <p className="text-sm text-black">
+                                        Lastname
+                                    </p>
+
+                                    <InputGroup startElement={<FiUser size={20} color="grey" />}>
+                                        <Input name="lastname" value={formik.values.lastname} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                    </InputGroup>
+                                    {
+                                        formik.touched.lastname && formik.errors.lastname && <p className="mt-2 text-red-400 text-xs">{formik.errors.lastname}</p>
+                                    }
+
+                                </div>
+
+                                <div className="flex flex-col mt-3">
+                                    <p className="text-sm text-black">
+                                        Email
+                                    </p>
+                                    <InputGroup startElement={<FiMail size={20} color="grey" />}>
+                                        <Input name="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                    </InputGroup>
+                                    {
+                                        formik.touched.email && formik.errors.email && <p className="mt-2 text-red-400 text-xs">{formik.errors.email}</p>
+                                    }
+                                </div>
+
+                                <div className="flex flex-col mt-3">
+                                    <p className="text-sm text-black">
+                                        Password
+                                    </p>
+                                    <InputGroup startElement={<FiLock size={20} color="grey" />}>
+                                        <Input type="password" name="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                                    </InputGroup>
+                                    {
+                                        formik.touched.password && formik.errors.password && <p className="mt-2 text-red-400 text-xs">{formik.errors.password}</p>
+                                    }
+                                </div>
+
+                                <div className="flex flex-col mt-3">
+                                    <p className="ttext-sm text-black">
+                                        Role
+                                    </p>
+
+                                    <NativeSelectRoot>
+                                        <NativeSelectField name="role" value={formik.values.role} onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                            <option value={1}>Super Admin</option>
+                                            <option value={2}>Admin</option>
+                                        </NativeSelectField>
+                                    </NativeSelectRoot>
+
+
+                                    {
+                                        formik.touched.role && formik.errors.role && <p className="mt-2 text-red-400 text-xs">{formik.errors.role}</p>
+                                    }
+                                </div>
+
+                            </div>
+
+
+                        </DialogBody>
                 }
-                <ModalFooter>
+                <DialogFooter>
                     {
                         step === 1 ?
-                        <div className="w-full flex">
-                        {
-                            user.role === 1 && (
-                                <div className="w-full">
-                                                <button onClick={deleteadmin} className="bg-red-400 text-white text-sm h-10 rounded px-3">
-                                        {
-                                            loading ?
+                            <div className="w-full flex">
+                                {
+                                    user.role === 1 && (
+                                        <div className="w-full">
+                                            <button onClick={deleteadmin} className="bg-red-400 text-white text-sm h-10 rounded px-3">
+                                                {
+                                                    loading ?
+                                                        <Spinner color="white" />
+                                                        :
+                                                        <span>Delete admin</span>
+                                                }
+                                            </button>
+                                            <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
+                                                <span>update admin</span>
+                                            </button>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    user.id === admin.id && (
+                                        <div className="w-full">
+                                            <button onClick={deleteadmin} className="bg-red-400 text-white text-sm h-10 rounded px-3">
+                                                {
+                                                    loading ?
+                                                        <Spinner color="white" />
+                                                        :
+                                                        <span>Delete admin</span>
+                                                }
+                                            </button>
+                                            <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
+                                                <span>update admin</span>
+                                            </button>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                            :
+                            <div className="w-full flex">
+                                <button onClick={updateAgent} className="bg-eazicred text-white text-sm h-10 rounded px-3">
+                                    {
+                                        loading ?
                                             <Spinner color="white" />
                                             :
-                                            <span>Delete admin</span>
-                                        }
-                                    </button>
-                                    <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
-                                        <span>update admin</span>
-                                    </button>
-                                </div>
-                            )
-                        } 
-                        {
-                            user.id === admin.id && (
-                                <div className="w-full">
-                                                <button onClick={deleteadmin} className="bg-red-400 text-white text-sm h-10 rounded px-3">
-                                        {
-                                            loading ?
-                                            <Spinner color="white" />
-                                            :
-                                            <span>Delete admin</span>
-                                        }
-                                    </button>
-                                    <button onClick={() => { formik.setValues(admin); setStep(2) }} className="bg-blue-400 text-white text-sm h-10 rounded px-3 ml-4">
-                                        <span>update admin</span>
-                                    </button>
-                                </div>
-                            )
-                        }
-                    </div>
-                    :
-                    <div className="w-full flex">
-                        <button onClick={updateAgent} className="bg-eazicred text-white text-sm h-10 rounded px-3">
-                            {
-                                loading ?
-                                <Spinner color="white" />
-                                :
-                                <span>Update</span>
-                            }
-                        </button>
-                        <button onClick={() => { formik.resetForm(); setStep(1)} } className="bg-red-400 text-white text-sm h-10 rounded px-3 ml-4">
-                            Cancel
-                        </button>
-                    </div>
+                                            <span>Update</span>
+                                    }
+                                </button>
+                                <button onClick={() => { formik.resetForm(); setStep(1) }} className="bg-red-400 text-white text-sm h-10 rounded px-3 ml-4">
+                                    Cancel
+                                </button>
+                            </div>
                     }
-                </ModalFooter>
-            </ModalContent>
-        </Modal>
+                </DialogFooter>
+            </DialogContent>
+        </DialogRoot>
 
-                )
-            }
+    )
+}

@@ -1,4 +1,4 @@
-import { IUser } from "./User";
+// import { IUser } from "./User";
 
 export interface ISMELoan {
     id: string;

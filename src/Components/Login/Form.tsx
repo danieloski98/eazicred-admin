@@ -1,11 +1,10 @@
 import React from "react";
 import {
+  Box,
   Button,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Spinner,
 } from "@chakra-ui/react";
+import { InputGroup } from "@/components/ui/input-group"
+import { Input, Spinner } from "@chakra-ui/react"
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -85,9 +84,7 @@ export default function LoginForm() {
         handleBlur,
         handleChange,
         touched,
-        isValid,
         errors,
-        dirty,
         handleSubmit
       }) => (
         <form onSubmit={handleSubmit} className="w-72 h-auto flex flex-col">
@@ -95,55 +92,62 @@ export default function LoginForm() {
             <img src="/assets/eazicred-logo.svg" alt="" className="w-40 h-10" />
           </div>
 
-          <div className="mt-6">
+          <Box mt="10px" mb="5px">
             <p className="font-bold text-2xl text-gray-600">Admin Login</p>
             <p className="mt-2 font-sans text-sm text-gray-500">
               Enter your credentials to contunue
             </p>
-          </div>
+          </Box>
 
-          <div className="w-72 mt-6">
+          <Box my='10px' w='auto' className="w-72 mt-6">
             <p className="mb-2 font-sans text-sm text-gray-500">
               Email Address
             </p>
             <Input
+              mt={'10px'}
               type="text"
               name="email"
-              className="w-40 h-12 rounded border-2 border-gray-500 text-sm"
+              w="300px"
+              borderRadius={'10px'}
+              borderWidth={'2px'}
+              borderColor={'grey'}
+
+
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
               fontSize="sm"
             />
             {touched.email && errors.email && <p className="mt-2 text-red-400 text-xs">{errors.email}</p>}
-          </div>
+          </Box>
 
           <div className="w-72 mt-6">
             <p className="mb-2 font-sans text-sm text-gray-500">Password</p>
-            <InputGroup>
-              <InputRightElement
-                children={
-                  showPassword ? (
-                    <FiEye
-                      color="grey"
-                      size={20}
-                      className="cursor-pointer"
-                      onClick={() => setShowPassword(false)}
-                    />
-                  ) : (
-                    <FiEyeOff
-                      color="grey"
-                      size={20}
-                      className="cursor-pointer"
-                      onClick={() => setShowPassword(true)}
-                    />
-                  )
-                }
-              />
+            <InputGroup w="300px" startElement={
+              showPassword ? (
+                <FiEye
+                  color="grey"
+                  size={20}
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <FiEyeOff
+                  color="grey"
+                  size={20}
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword(true)}
+                />
+              )
+            }>
+
               <Input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="w-40 h-12 rounded border-2 border-gray-500"
+                w="400px"
+                borderRadius={'10px'}
+                borderWidth={'2px'}
+                borderColor={'grey'}
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -158,6 +162,7 @@ export default function LoginForm() {
             color="white"
             bg={"blue.500"}
             mt='6'
+            w="300px"
           >
             {!loading && <span>Login</span>}
             {loading && <Spinner color="white" size="md" />}

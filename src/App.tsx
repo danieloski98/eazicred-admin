@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil'
-import { ThemeProvider, theme } from '@chakra-ui/react'
+import { Provider } from '@/components/ui/provider'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard';
 import Login from './Pages/Login';
@@ -18,7 +18,7 @@ function App() {
     <BrowserRouter>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
+          <Provider>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/dashboard" element={<Dashboard />}>
@@ -31,7 +31,7 @@ function App() {
                 <Route path="admins" element={<Admin />} />
               </Route>
             </Routes>
-          </ThemeProvider>
+          </Provider>
         </QueryClientProvider>
       </RecoilRoot>
     </BrowserRouter>

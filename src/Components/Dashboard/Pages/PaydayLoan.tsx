@@ -1,5 +1,4 @@
 import React from 'react'
-import { InputGroup, InputLeftElement, Input, Spinner, Table, Thead, Tbody, Tr, Td } from '@chakra-ui/react'
 import local from '../../../utils/url'
 import { IApiReturnType } from '../../../Types/ApiReturnType'
 import { useQuery } from 'react-query'
@@ -9,6 +8,9 @@ import { IPaydayLoan } from '../../../Types/PayDaylaon'
 import { FiSearch, FiRefreshCcw, } from 'react-icons/fi'
 import PaydaylaonModal from '../Components/PaydaylaonModal'
 import xlsx from 'json-as-xlsx';
+
+import { InputGroup } from "@/components/ui/input-group"
+import { Input, Spinner, Table } from '@chakra-ui/react'
 
 
 const getUsers = async (token: string) => {
@@ -29,7 +31,7 @@ const getUsers = async (token: string) => {
 }
 
 export default function PaydayLoan() {
-    const { token, user } = UseDetails();
+    const { token } = UseDetails();
     const [loading, setLoading] = React.useState(true);
     const [users, setUsers] = React.useState([] as Array<IPaydayLoan>);
     const [error, setError] = React.useState(false);
@@ -223,9 +225,8 @@ export default function PaydayLoan() {
                 </div>
 
                 <div className="flex">
-                    <InputGroup className="h-12" width="sm">
-                        <InputLeftElement children={<FiSearch size={20} color="grey" />} />
-                        <Input className="w-72" placeholder="Search by user email and LGA" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
+                    <InputGroup className="h-12" width="sm" startElement={<FiSearch size={20} color="grey" />}>
+                        <Input className="w-72" placeholder="Search by email or firstname" fontSize="sm" onChange={e => setSearchTerm(e.target.value)} />
                     </InputGroup>
                     <button onClick={() => xlsx(data as any, settings)} className="w-24 ml-6 text-white bg-green-300 text-sm h-10 rounded">To Excel</button>
                     <div onClick={retry} title="Refresh" className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center transform hover:scale-125 transition-all hover:text-eazicred cursor-pointer ml-6">
@@ -258,18 +259,18 @@ export default function PaydayLoan() {
             {
                 !loading && !error && (
                     <div style={{ height: '450px' }} className="w-full rounded-md border-2 border-gray-300 p-4 overflow-y-scroll overflow-x-hidden">
-                        <Table className="h-auto overflow-y-auto w-full overflow-x-hidden">
+                        <Table.Root className="h-auto overflow-y-auto w-full overflow-x-hidden">
 
-                            <Thead>
-                                <Tr className="h-10  border-b-2 border-gray-200">
-                                    <Td className="w-20 text-left">S/N</Td>
-                                    <Td className="w-40 text-left">Name</Td>
+                            <Table.Header>
+                                <Table.Row className="h-10  border-b-2 border-gray-200">
+                                    <Table.ColumnHeader className="w-20 text-left">S/N</Table.ColumnHeader>
+                                    <Table.ColumnHeader className="w-40 text-left">Name</Table.ColumnHeader>
                                     {/* <Td className="w-40 text-left">User Email</Td> */}
-                                    <Td className="w-40 text-left">Agent Email</Td>
-                                    <Td className="w-40 text-left">Status</Td>
-                                    <Td className="w-20 text-left">Action</Td>
-                                </Tr>
-                            </Thead>
+                                    <Table.ColumnHeader className="w-40 text-left">Agent Email</Table.ColumnHeader>
+                                    <Table.ColumnHeader className="w-40 text-left">Status</Table.ColumnHeader>
+                                    <Table.ColumnHeader className="w-20 text-left">Action</Table.ColumnHeader>
+                                </Table.Row>
+                            </Table.Header>
 
                             {
                                 users.filter((val) => {
@@ -279,16 +280,16 @@ export default function PaydayLoan() {
                                         return val;
                                     }
                                 }).map((items, index) => (
-                                    <Tr className="pt-6" key={index.toString()}>
-                                        <Td className="pt-6">{index + 1}</Td>
-                                        <Td className="pt-6 text-sm">{items.firstname || ''} {items.lastname || ''}</Td>
+                                    <Table.Row className="pt-6" key={index.toString()}>
+                                        <Table.Cell className="pt-6">{index + 1}</Table.Cell>
+                                        <Table.Cell className="pt-6 text-sm">{items.firstname || ''} {items.lastname || ''}</Table.Cell>
                                         {/* <Td className="pt-6 text-sm">{items.email}</Td> */}
-                                        <Td className="pt-6 text-sm">{items.agent?.email}</Td>
-                                        <Td className="pt-6 text-sm">{statusSelector(items.status)}</Td>
-                                        <Td className="pt-6 text-sm">
+                                        <Table.Cell className="pt-6 text-sm">{items.agent?.email}</Table.Cell>
+                                        <Table.Cell className="pt-6 text-sm">{statusSelector(items.status)}</Table.Cell>
+                                        <Table.Cell className="pt-6 text-sm">
                                             <button onClick={() => { setCurrentLoan(items); setShowModal(true); console.log(items) }} className="w-24 text-eazicred bg-blue-100 text-sm h-8 rounded">View Details</button>
-                                        </Td>
-                                    </Tr>
+                                        </Table.Cell>
+                                    </Table.Row>
                                 ))
                             }
 
@@ -296,7 +297,7 @@ export default function PaydayLoan() {
 
 
 
-                        </Table>
+                        </Table.Root>
                     </div>
                 )
             }
